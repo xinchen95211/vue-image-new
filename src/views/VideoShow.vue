@@ -48,9 +48,8 @@ export default {
     //   })
     // },
     getVideoUrl(id){
-      axios.get(`/api/video/${id}`).then(e => {
+      axios.get(`https://frp-hat.top:49728/video/${id}`).then(e => {
         if (e.data.code === 200){
-          console.log(e.data.data)
           this.options.src = e.data.data
         }
       })

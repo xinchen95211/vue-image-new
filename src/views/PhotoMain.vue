@@ -375,7 +375,7 @@ export default {
           this.pmore = false;
           this.pLoading=true;
           this.currentPage += 1;
-          axios.post("api/photo", {
+          axios.post("https://frp-hat.top:49728/photo", {
             "tables": this.tableName,
             "search": this.search,
             "row": this.currentPage
@@ -395,11 +395,11 @@ export default {
     },
     selectItem(id){
       // this.$router.push('/show/'+ id)
-      window.open('/show/'+ id);
+      window.open('/#/show/'+ id);
     },
     selectStar(i){
       console.log(this.imgList[i].id);
-      axios.get("api/photo/like/" + this.imgList[i].id).then(e => {
+      axios.get("https://frp-hat.top:49728/photo/like/" + this.imgList[i].id).then(e => {
         if (e.data.code === 2001){
           this.imgList[i].star = !this.imgList[i].star;
         }
@@ -407,7 +407,7 @@ export default {
     },
     //图片加载
     imgListLoad(){
-      axios.post("api/photo", {
+      axios.post("https://frp-hat.top:49728/photo", {
         "tables": this.tableName,
         "search": this.search,
         "row": this.currentPage

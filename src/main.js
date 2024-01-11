@@ -28,6 +28,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 axios.interceptors.request.use(function (config) {
     config.headers['Authorization'] = 'Bearer ' + localStorage.getItem("token")
     config.headers['Uuid'] = localStorage.getItem("uuid")
+    // config.headers['Access-Control-Allow-Origin'] = "*"
     return config
 }, function (error) {
     router.push('/error');
@@ -63,7 +64,6 @@ axios.interceptors.response.use(function(response){
         return Promise.reject(error)
     }
 )
-
 
 
 
