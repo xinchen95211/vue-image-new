@@ -71,41 +71,41 @@ const router = createRouter({
     routes: [
         {
             path:"/videoshow/:id",
-            component:import("@/views/VideoShow.vue"),
+            component:import("./views/VideoShow.vue"),
             props:true
         },
         {
             path:"/video",
-            component:import("@/views/VideoMain.vue")
+            component:import("./views/VideoMain.vue")
         },
         {
             path:'/',
-            component:import("@/views/PhotoMain.vue")
+            component:import("./views/PhotoMain.vue")
         },
         {
             path: "/show/:id",
-            component: import("@/views/PhotoShow.vue"),
+            component: import("./views/PhotoShow.vue"),
             props:true
         },
         {
             path:"/login",
-            component:import("@/views/LoginView.vue"),
+            component:import("./views/LoginView.vue"),
         },
         {
             path:"/register",
-            component:import("@/views/RegisterView.vue")
+            component:import("./views/RegisterView.vue")
         },
         {
             path:"/retrievePassword",
-            component:import("@/views/RetrievePasswordView.vue")
+            component:import("./views/RetrievePasswordView.vue")
         },
         {
             path:"/error",
-            component:import("@/components/ErrorComponents.vue")
+            component:import("./components/ErrorComponents.vue")
         },
         {
             path:"/logout",
-            component:import("@/views/LogoutView.vue")
+            component:import("./views/LogoutView.vue")
         }
     ]
 })
