@@ -7,6 +7,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   base:'./',
   server: {
+    port: 80,
     proxy: {
       '/api': {
         target: 'https://frp-hat.top:49728',

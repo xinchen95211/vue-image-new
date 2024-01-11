@@ -53,10 +53,10 @@
       style="text-align: center;align-items: center"
   >
     <div>
-      <el-input placeholder="请输入内容" v-model="inputText" class="input-with-select"  style="width: 100%">
+      <el-input placeholder="此框没用" v-model="inputText" class="input-with-select"  style="width: 100%">
       </el-input>
     </div>
-    <el-button :icon="Search"   style="width: 100%"></el-button>
+<!--    <el-button :icon="Search"   style="width: 100%"></el-button>-->
 
 
     <div v-for="item of tablebs" :key="item">
