@@ -13,7 +13,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import IndexDB from "@/utils/indexDB";
 import '@/style/LoginCSS.css'
 import axios from "axios";
-import {createRouter, createWebHashHistory} from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 
 
 
@@ -66,7 +66,7 @@ axios.interceptors.response.use(function(response){
 
 
 const router = createRouter({
-    history:createWebHashHistory('/'),
+    history:createWebHistory('/'),
     mode:'hash',
     routes: [
         {
