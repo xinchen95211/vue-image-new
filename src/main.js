@@ -67,7 +67,6 @@ axios.interceptors.response.use(function(response){
 
 const router = createRouter({
     history:createWebHistory('/'),
-    mode:'hash',
     routes: [
         {
             path:"/videoshow/:id",
