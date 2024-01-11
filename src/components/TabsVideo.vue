@@ -24,16 +24,10 @@
         <span class="navbar-toggler-icon" ></span>
       </button>
       <div class="collapse navbar-collapse hidden-md-and-down" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              分类1
-            </a>
-            <ul class="dropdown-menu">
-              <li v-for="(item) of tablebs"
-                  :key="item"
-              ><a  class="dropdown-item"  @click="handleSelect(item.tablesname)">{{ item.name }}</a></li>
-            </ul>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0"  >
+
+          <li class="nav-item" v-for="(item) of tablebs" :key="item">
+            <a class="nav-link" aria-current="page" @click="handleSelect(item.tablesname)" >{{ item.name }}</a>
           </li>
         </ul>
 
