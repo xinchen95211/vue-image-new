@@ -45,17 +45,17 @@ const router = createRouter({
     ]
 })
 
-// router.beforeEach((to,from,next)=>{
-//     const token = localStorage.getItem("token");
-//     if(to.path === '/login' || to.path === '/register'|| to.path === '/retrievePassword'|| to.path === '/error'){
-//             next();
-//     }else{
-//         if(token == null || token === ''){
-//             next('/login');
-//         } else{
-//             next();
-//         }
-//     }
-// })
+router.beforeEach((to,from,next)=>{
+    const token = localStorage.getItem("token");
+    if(to.path === '/login' || to.path === '/register'|| to.path === '/retrievePassword'|| to.path === '/error'){
+            next();
+    }else{
+        if(token == null || token === ''){
+            next('/login');
+        } else{
+            next();
+        }
+    }
+})
 
 export default router
