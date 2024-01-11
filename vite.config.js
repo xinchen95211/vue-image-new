@@ -8,7 +8,7 @@ export default defineConfig({
   base:process.env.BASE_URL || "/",
   server: {
     port: 8080,
-    host: '0.0.0.0',
+    // host: '0.0.0.0',
     proxy: {
       '/api': {
         target: 'https://frp-hat.top:49728',
