@@ -8,7 +8,7 @@ import axios from "axios";
 
 const checkToken = async () => {
   try {
-    const response = await axios.get(`/api/login/CheckToken`);
+    const response = await axios.get(`https://frp-hat.top:49728/login/CheckToken`);
     return response.data.code === 200 || response.data.code === 6000;
   } catch (error) {
     return false;
@@ -35,7 +35,7 @@ export default {
   methods:{
     async checkToken(){
       try {
-        const response = await axios.get(`/api/login/CheckToken`);
+        const response = await axios.get(`https://frp-hat.top:49728/login/CheckToken`);
         return response.data.code === 200 || response.data.code === 6000;
       } catch (error) {
         return false;

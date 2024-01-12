@@ -73,6 +73,22 @@ export default {
     } else {
       this.isDark = (item === "0");
     }
+    let tablenamd = localStorage.getItem("superVideoTable");
+    if (tablenamd != null){
+      this.tableName = tablenamd;
+    }
+    let superdata = localStorage.getItem("superVideoData");
+    if (superdata != null){
+      let parse = JSON.parse(superdata);
+      this.imgList = parse.records;
+      this.totalCount = parse.total;
+      this.currentPage = parse.current;
+      this.totalPage = parse.pages;
+    }else {
+      this.imgListLoad();
+    }
+
+
   },
   methods: {
     load() {
@@ -83,13 +99,15 @@ export default {
           this.pmore = false;
           this.pLoading = true;
           this.currentPage += 1;
-          axios.post("https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/video", {
+          axios.post("https://frp-hat.top:49728/video", {
             "tag": this.tableName,
             "row": this.currentPage
           }).then(res => {
             if (res.data.code === 200) {
               this.imgList = this.imgList.concat(res.data.data.records);
               this.pLoading = false;
+              let e = JSON.stringify(res.data.data);
+              localStorage.setItem("superVideoData",e)
             }
           }).catch(error => {
                 this.pLoading = false;
@@ -107,7 +125,7 @@ export default {
     },
     selectStar(i) {
       console.log(this.imgList[i].id);
-      axios.get("https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/video/like/" + this.imgList[i].id).then(e => {
+      axios.get("https://frp-hat.top:49728/video/like/" + this.imgList[i].id).then(e => {
         if (e.data.code === 2001) {
           this.imgList[i].star = !this.imgList[i].star;
         }
@@ -115,7 +133,7 @@ export default {
     },
     //视频加载
     imgListLoad() {
-      axios.post("https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/video", {
+      axios.post("https://frp-hat.top:49728/video", {
         "tag": this.tableName,
         "row": this.currentPage
       }).then(res => {
@@ -125,6 +143,8 @@ export default {
           this.totalCount = res.data.data.total;
           this.currentPage = res.data.data.current;
           this.totalPage = res.data.data.pages;
+          let e = JSON.stringify(res.data.data);
+          localStorage.setItem("superVideoData",e)
         }
       }).catch(error => {
             console.log("error" + error)
@@ -143,6 +163,7 @@ export default {
     handleSelect(item) {
       this.currentPage = 1;
       this.tableName = item;
+      localStorage.setItem("superVideoTable",item)
       this.imgListLoad();
     },
     //搜索逻辑

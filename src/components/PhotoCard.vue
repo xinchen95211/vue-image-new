@@ -19,7 +19,7 @@
               </div>
               <div  class="related_box"  @click="selectItem(item.id)">
                 <el-image
-                    :src="item.domain + '/' +item.prefix + '/' + item.suffix + '/' + item.thumbnail + '?' +this.random"
+                    :src="item.domain + '/' +item.prefix + '/' + item.suffix + '/' + item.thumbnail "
                     fit="cover"
                     class="el-image"
                     @load="loading[i] = false"

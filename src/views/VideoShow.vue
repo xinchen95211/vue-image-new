@@ -14,6 +14,7 @@
 // import {Star, StarFilled} from "@element-plus/icons-vue";
 import axios from "axios";
 import Vue3VideoPlay from "vue3-video-play/lib/video-play/main.vue";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "VideoShow",
@@ -48,9 +49,13 @@ export default {
     //   })
     // },
     getVideoUrl(id){
-      axios.get(`https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/video/${id}`).then(e => {
+      axios.get(`https://frp-hat.top:49728/video/${id}`).then(e => {
         if (e.data.code === 200){
-          this.options.src = e.data.data
+          if (e.data.data == null){
+            ElMessage.error("这个视频暂时有问题,换一个看看吧")
+          }else{
+            this.options.src = e.data.data
+          }
         }
       })
     }

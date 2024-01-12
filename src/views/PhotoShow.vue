@@ -61,12 +61,12 @@ export default {
   },
   methods:{
     mount(id){
-      let res = localStorage.getItem(id);
+      let res = localStorage.getItem("photo_" + id);
       if (res == null){
-          axios.get("https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/photo/" + id).then(e => {
+          axios.get("https://frp-hat.top:49728/photo/" + id).then(e => {
             if (e.data.code === 200){
               res = JSON.stringify(e.data.data);
-              localStorage.setItem(id,res)
+              localStorage.setItem("photo_" + id,res)
               this.loadimg(res)
             }
           }).catch(error => {
