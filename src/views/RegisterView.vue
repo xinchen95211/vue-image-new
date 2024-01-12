@@ -44,7 +44,7 @@
 <script>
 
 import axios from "axios";
-import {ElMessage} from "element-plus";
+import {ElLoading, ElMessage} from "element-plus";
 
 export default {
   name: "RegisterView",
@@ -124,8 +124,14 @@ export default {
     Register(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          axios.post("https://frp-hat.top:49728/register",this.ruleForm).then(e => {
+          const loading = ElLoading.service({
+            lock: true,
+            text: '正在注册中,请稍等片刻',
+            background: 'rgba(0, 0, 0, 0.7)',
+          })
+          axios.post(`${this.$domainUrl}/register`,this.ruleForm).then(e => {
             if (e.data.code === 210){
+              loading.close()
               ElMessage.success(e.data.message)
             }
           })
@@ -153,7 +159,7 @@ export default {
           this.emailCheckCodeStatus = true;
           let time = 60;
           this.timer(time)
-          axios.get(`https://frp-hat.top:49728/register/getEmailCheckCode/${this.ruleForm.email}`).then(e => {
+          axios.get(`${this.$domainUrl}/register/getEmailCheckCode/${this.ruleForm.email}`).then(e => {
             if (e.data.code === 200) {
               ElMessage.success(e.data.data)
             }
@@ -166,7 +172,7 @@ export default {
     //检测用户名是否存在
     async checkNameFrom() {
       try {
-        const response = await axios.get(`https://frp-hat.top:49728/register/checkName/${this.ruleForm.username}`);
+        const response = await axios.get(`${this.$domainUrl}/register/checkName/${this.ruleForm.username}`);
         return response.data.code === 200;
       } catch (error) {
         return false;
@@ -175,7 +181,7 @@ export default {
     //检测这个邮箱是否注册过
     async checkEmail(){
       try {
-        const response = await axios.get(`https://frp-hat.top:49728/register/checkEmail/${this.ruleForm.email}`);
+        const response = await axios.get(`${this.$domainUrl}/register/checkEmail/${this.ruleForm.email}`);
         return response.data.code === 200;
       } catch (error) {
         return false;
@@ -184,7 +190,7 @@ export default {
     //检测邮箱验证码是否正确
     async checkEmailCode() {
       try {
-        const response = await axios.post(`https://frp-hat.top:49728/register/checkEmailCode`, this.ruleForm);
+        const response = await axios.post(`${this.$domainUrl}/register/checkEmailCode`, this.ruleForm);
         return response.data.code === 200;
       } catch (error) {
         return false;

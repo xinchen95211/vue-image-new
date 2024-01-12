@@ -63,7 +63,7 @@ export default {
     mount(id){
       let res = localStorage.getItem("photo_" + id);
       if (res == null){
-          axios.get("https://frp-hat.top:49728/photo/" + id).then(e => {
+          axios.get(`${this.$domainUrl}/photo/` + id).then(e => {
             if (e.data.code === 200){
               res = JSON.stringify(e.data.data);
               localStorage.setItem("photo_" + id,res)

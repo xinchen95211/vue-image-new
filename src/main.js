@@ -21,7 +21,8 @@ let elementApp = createApp(App);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     elementApp.component(key, component)
 }
-
+//域名
+elementApp.config.globalProperties.$domainUrl = "https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728"
 
 
 // 请求拦截器
@@ -41,7 +42,9 @@ axios.interceptors.response.use(function(response){
                 case 4001 : {
                     ElMessage.error(response.data.message);
                     localStorage.removeItem("token");
-                    location.replace("/#/login");
+                    setTimeout(() => {
+                            location.replace("/#/login");
+                            }, 20000)
                     break;
                 }
                 case 4004 : {this.$router.push('/error');break}

@@ -14,7 +14,7 @@
           <!--      <img :src="checkCodeImg"  @click="getCheckCodeImgPost()">-->
           <!--    </el-form-item>-->
           <el-form-item>
-            <el-button class="loginBtn" @click="login('ruleForm')">登陆</el-button>
+            <el-button class="loginBtn" @click="login('ruleForm')" ref="logins">登陆</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -26,6 +26,7 @@
         <a style="color: blue" @click="this.$router.push('/register')">注册一个</a>
       </div>
     </div>
+
 </template>
 <script>
 import {defineComponent} from "vue";
@@ -94,7 +95,7 @@ export default defineComponent({
     login(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          axios.post("https://frp-hat.top:49728/login",this.ruleForm,{headers: {
+          axios.post(`${this.$domainUrl}/login`,this.ruleForm,{headers: {
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
             }
           }).then(e => {
@@ -113,7 +114,7 @@ export default defineComponent({
       });
     },
     getCheckCodeImgPost(){
-      axios.post('https://frp-hat.top:49728/logins/checkcode',{"key":this.uuid},{
+      axios.post(`${this.$domainUrl}/logins/checkcode`,{"key":this.uuid},{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
         }
@@ -124,7 +125,7 @@ export default defineComponent({
       })
     },
     checkCodeVerity(){
-      axios.post('https://frp-hat.top:49728/logins/verify',{"key":this.uuid,"checkCode":this.ruleForm.checkCode},{
+      axios.post(`${this.$domainUrl}/logins/verify`,{"key":this.uuid,"checkCode":this.ruleForm.checkCode},{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
         }

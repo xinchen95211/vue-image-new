@@ -99,7 +99,7 @@ export default {
           this.pmore = false;
           this.pLoading = true;
           this.currentPage += 1;
-          axios.post("https://frp-hat.top:49728/video", {
+          axios.post(`${this.$domainUrl}/video`, {
             "tag": this.tableName,
             "row": this.currentPage
           }).then(res => {
@@ -125,7 +125,7 @@ export default {
     },
     selectStar(i) {
       console.log(this.imgList[i].id);
-      axios.get("https://frp-hat.top:49728/video/like/" + this.imgList[i].id).then(e => {
+      axios.get(`${this.$domainUrl}/video/like/` + this.imgList[i].id).then(e => {
         if (e.data.code === 2001) {
           this.imgList[i].star = !this.imgList[i].star;
         }
@@ -133,7 +133,7 @@ export default {
     },
     //视频加载
     imgListLoad() {
-      axios.post("https://frp-hat.top:49728/video", {
+      axios.post(`${this.$domainUrl}/video`, {
         "tag": this.tableName,
         "row": this.currentPage
       }).then(res => {

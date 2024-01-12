@@ -49,7 +49,7 @@ export default {
     //   })
     // },
     getVideoUrl(id){
-      axios.get(`https://frp-hat.top:49728/video/${id}`).then(e => {
+      axios.get(`${this.$domainUrl}/video/${id}`).then(e => {
         if (e.data.code === 200){
           if (e.data.data == null){
             ElMessage.error("这个视频暂时有问题,换一个看看吧")
