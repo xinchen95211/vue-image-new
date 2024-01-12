@@ -25,6 +25,7 @@
         没有账户?
         <a style="color: blue" @click="this.$router.push('/register')">注册一个</a>
       </div>
+      <div @cilck="noRegister">不想注册请点我</div>
     </div>
 
 </template>
@@ -92,6 +93,10 @@ export default defineComponent({
 
   },
   methods: {
+    noRegister(){
+      this.ruleForm.username = 'test';
+      this.ruleForm.password = '1234567';
+    },
     login(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {

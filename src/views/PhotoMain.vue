@@ -3,7 +3,6 @@
     <div :style="{ height: tabHeight }">
       <tabs-vips @handleSelect="handleSelect" @handleSearch="handleSearch" @toggleDark="toggleDark"  :is-dark="isDark"></tabs-vips>
     <div class="centers">
-<!--      <paglina-tion  :totalCount="totalCount" :currentPage="currentPage" @pageTurning="pageTurning"></paglina-tion>-->
       <div class="slider">
         <el-slider v-model="currentPage" :min="minPage" :max="totalPage" @change="changePage"/>
       </div>
@@ -206,7 +205,6 @@ export default {
     isDark(){this.openDark()},
     tableName(){this.imgListLoad()},
     search(){this.imgListLoad()},
-    // currentPage(){this.imgListLoad()},
   }
 
 
