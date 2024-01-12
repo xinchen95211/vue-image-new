@@ -41,7 +41,7 @@ axios.interceptors.response.use(function(response){
                 case 4001 : {
                     ElMessage.error(response.data.message);
                     localStorage.removeItem("token");
-                    window.replace('/login');
+                    location.replace("/#/login");
                     break;
                 }
                 case 4004 : {this.$router.push('/error');break}
