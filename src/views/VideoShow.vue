@@ -48,7 +48,7 @@ export default {
     //   })
     // },
     getVideoUrl(id){
-      axios.get(`https://frp-hat.top:49728/video/${id}`).then(e => {
+      axios.get(`https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/video/${id}`).then(e => {
         if (e.data.code === 200){
           this.options.src = e.data.data
         }

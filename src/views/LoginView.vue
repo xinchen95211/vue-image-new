@@ -88,6 +88,7 @@ export default defineComponent({
   },
   created() {
     // this.getCheckCodeImgPost();
+
   },
   methods: {
     login(formName){
@@ -112,7 +113,7 @@ export default defineComponent({
       });
     },
     getCheckCodeImgPost(){
-      axios.post('https://frp-hat.top:49728/logins/checkcode',{"key":this.uuid},{
+      axios.post('https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/logins/checkcode',{"key":this.uuid},{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
         }
@@ -123,7 +124,7 @@ export default defineComponent({
       })
     },
     checkCodeVerity(){
-      axios.post('https://frp-hat.top:49728/logins/verify',{"key":this.uuid,"checkCode":this.ruleForm.checkCode},{
+      axios.post('https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/logins/verify',{"key":this.uuid,"checkCode":this.ruleForm.checkCode},{
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
         }

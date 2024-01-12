@@ -115,7 +115,7 @@ export default {
     Retrieve(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          axios.post("https://frp-hat.top:49728/register/retrieve",this.ruleForm).then(e => {
+          axios.post("https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/register/retrieve",this.ruleForm).then(e => {
             if (e.data.code === 211){
               ElMessage.success(e.data.message)
             }
@@ -144,7 +144,7 @@ export default {
           this.emailCheckCodeStatus = true;
           let time = 60;
           this.timer(time)
-          axios.get(`https://frp-hat.top:49728/register/getEmailCheckCode/${this.ruleForm.email}`).then(e => {
+          axios.get(`https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/register/getEmailCheckCode/${this.ruleForm.email}`).then(e => {
             if (e.data.code === 200) {
               ElMessage.success(e.data.data)
             }
@@ -157,7 +157,7 @@ export default {
     //检测这个邮箱是否注册过
     async checkEmail(){
       try {
-        const response = await axios.get(`https://frp-hat.top:49728/register/checkEmail/${this.ruleForm.email}`);
+        const response = await axios.get(`https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/register/checkEmail/${this.ruleForm.email}`);
         return response.data.code === 200;
       } catch (error) {
         return false;
@@ -166,7 +166,7 @@ export default {
     //检测邮箱验证码是否正确
     async checkEmailCode() {
       try {
-        const response = await axios.post(`https://frp-hat.top:49728/register/checkEmailCode`, this.ruleForm);
+        const response = await axios.post(`https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728/register/checkEmailCode`, this.ruleForm);
         return response.data.code === 200;
       } catch (error) {
         return false;

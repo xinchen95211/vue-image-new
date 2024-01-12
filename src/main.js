@@ -27,8 +27,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 // 请求拦截器
 axios.interceptors.request.use(function (config) {
     config.headers['Authorization'] = 'Bearer ' + localStorage.getItem("token")
-    config.headers['Uuid'] = localStorage.getItem("uuid")
-    // config.headers['Access-Control-Allow-Origin'] = "*"
+    config.headers['uuid'] = localStorage.getItem("uuid")
     return config
 }, function (error) {
     router.push('/error');
@@ -42,7 +41,7 @@ axios.interceptors.response.use(function(response){
                 case 4001 : {
                     ElMessage.error(response.data.message);
                     localStorage.removeItem("token");
-                    window.reload('/login');
+                    window.replace('/login');
                     break;
                 }
                 case 4004 : {this.$router.push('/error');break}
