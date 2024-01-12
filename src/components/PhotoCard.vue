@@ -19,7 +19,7 @@
               </div>
               <div  class="related_box"  @click="selectItem(item.id)">
                 <el-image
-                    :src="item.domain + '/' +item.prefix + '/' + item.suffix + '/' + item.thumbnail"
+                    :src="item.domain + '/' +item.prefix + '/' + item.suffix + '/' + item.thumbnail + this.random"
                     fit="cover"
                     class="el-image"
                     @load="loading[i] = false"
@@ -49,8 +49,12 @@ export default {
   components: { StarFilled, Star},
   data(){
     return{
-      loading:[]
+      loading:[],
+      random:1
     }
+  },
+  created() {
+    this.random = Math.floor(Math.random() * 100);
   },
   methods:{
     selectItem(id){
