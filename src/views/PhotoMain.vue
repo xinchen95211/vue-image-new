@@ -111,6 +111,15 @@ export default {
               this.pLoading=false;
               let e = JSON.stringify(res.data.data);
               localStorage.setItem("superData",e)
+              this.imgList.forEach(e =>{
+                this.$getValue("photo_" + e.id).then(photo =>{
+                  if (photo == null){
+                    let date = JSON.stringify(e);
+                    this.$setValue("photo_" + e.id,date);
+                  }
+                })
+              })
+
             }
           }).catch(error => {
                 this.pLoading=false;
@@ -135,6 +144,7 @@ export default {
     },
     //图片加载
     imgListLoad(){
+      this.imgList = []
       axios.post(`${this.$domainUrl}/photo`, {
         "tables": this.tableName,
         "search": this.search,
@@ -148,11 +158,17 @@ export default {
           this.totalPage = res.data.data.pages;
           let e = JSON.stringify(res.data.data);
           localStorage.setItem("superData",e)
+
+          this.imgList.forEach(e =>{
+            this.$getValue("photo_" + e.id).then(photo =>{
+              if (photo == null){
+                let date = JSON.stringify(e);
+                this.$setValue("photo_" + e.id,date);
+              }
+            })
+          })
         }
-      }).catch(error => {
-            console.log("error" + error)
-      }
-      )
+      })
     },
     //翻页逻辑
     pageTurning(e){

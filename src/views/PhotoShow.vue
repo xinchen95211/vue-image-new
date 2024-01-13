@@ -61,21 +61,37 @@ export default {
   },
   methods:{
     mount(id){
-      let res = localStorage.getItem("photo_" + id);
-      if (res == null){
+      // let res = localStorage.getItem("photo_" + id);
+      this.$getValue("photo_" + id).then(res => {
+        if (res == null){
           axios.get(`${this.$domainUrl}/photo/` + id).then(e => {
             if (e.data.code === 200){
-              res = JSON.stringify(e.data.data);
-              localStorage.setItem("photo_" + id,res)
-              this.loadimg(res)
+              let date = JSON.stringify(e.data.data);
+              this.$setValue("photo_" + id,date)
+              this.loadimg(date)
             }
           }).catch(error => {
                 console.log("error" + error)
               }
           )
-      }else {
-        this.loadimg(res)
-      }
+        }else {
+          this.loadimg(res)
+        }
+      })
+      // if (res == null){
+      //     axios.get(`${this.$domainUrl}/photo/` + id).then(e => {
+      //       if (e.data.code === 200){
+      //         res = JSON.stringify(e.data.data);
+      //         localStorage.setItem("photo_" + id,res)
+      //         this.loadimg(res)
+      //       }
+      //     }).catch(error => {
+      //           console.log("error" + error)
+      //         }
+      //     )
+      // }else {
+      //   this.loadimg(res)
+      // }
     },
     loadimg(res){
       let resf = JSON.parse(res);

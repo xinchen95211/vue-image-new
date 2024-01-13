@@ -103,7 +103,7 @@ export default defineComponent({
           const loading = ElLoading.service({
             lock: true,
             text: '正在登陆请稍后...',
-            background: 'rgba(0, 0, 0, 1)',
+            background: 'rgba(0, 0, 0, 0.8)',
           })
           axios.post(`${this.$domainUrl}/login`,this.ruleForm,{headers: {
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -119,7 +119,7 @@ export default defineComponent({
           })
           setTimeout(() => {
             loading.close();
-          }, 4000);
+          }, 5000);
         } else {
           return false;
         }

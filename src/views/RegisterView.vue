@@ -127,7 +127,7 @@ export default {
           const loading = ElLoading.service({
             lock: true,
             text: '正在注册中,请稍等片刻',
-            background: 'rgba(0, 0, 0, 0.7)',
+            background: 'rgba(0, 0, 0, 0.8)',
           })
           axios.post(`${this.$domainUrl}/register`,this.ruleForm).then(e => {
             if (e.data.code === 210){
