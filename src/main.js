@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import 'element-plus/theme-chalk/display.css'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -7,13 +7,22 @@ import ElementPlus, {ElMessage} from 'element-plus'
 import 'element-plus/dist/index.css'
 import App from './App.vue'
 import 'vue3-video-play/dist/style.css'
-import 'element-plus/theme-chalk/dark/css-vars.css'
 import VueUuid from 'vue-uuid'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import IndexDB from "@/utils/indexDB";
 import '@/style/LoginCSS.css'
 import axios from "axios";
 import router from './router/router.js'
+import localforage from 'localforage';
+
+localforage.config({
+    name:'virgo',
+    version: 1 ,
+    storeName:'superVirgo'
+});
+
+
+
 
 
 
@@ -21,9 +30,24 @@ let elementApp = createApp(App);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     elementApp.component(key, component)
 }
+elementApp.config.globalProperties.$localforage = localforage;
+
 //域名
-elementApp.config.globalProperties.$domainUrl = "https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728"
+elementApp.config.globalProperties.$domainUrl = "https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728";
 // elementApp.config.globalProperties.$domainUrl = "http://localhost:9999"
+
+elementApp.config.globalProperties.$isIndexDbSupport = typeof window.indexedDB !== 'undefined';
+elementApp.config.globalProperties.$isLocalStoragebSupport = typeof window.localStorage !== 'undefined';
+
+elementApp.config.globalProperties.$setValue = (key,value) => {setValue(key,value)}
+elementApp.config.globalProperties.$getValue = (key) => {return getValue(key)}
+function setValue(key,value) {
+    localforage.setItem(key, value);
+}
+function getValue(key) {
+  return localforage.getItem(key)
+}
+
 
 
 // 请求拦截器
@@ -39,10 +63,10 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function(response){
         if (response.data){
             switch (response.data.code){
-                case 6000 : {localStorage.setItem("token",response.data.data);break}
+                case 6000 : {this.$localStrong.setItem("token",response.data.data);break}
                 case 4001 : {
                     ElMessage.error(response.data.message);
-                    localStorage.removeItem("token");
+                    this.$localStrong.removeItem("token");
                     setTimeout(() => {
                             location.replace("/#/login");
                             }, 20000)

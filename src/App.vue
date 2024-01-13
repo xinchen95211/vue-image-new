@@ -5,12 +5,26 @@
 <script>
 
 import axios from "axios";
+import localforage from "localforage";
 
 
 
 export default {
   name:'app',
   created() {
+    // this.$getValue('token').then(e => {
+    //   if (e != null){
+    //     if (checkToken(this.$domainUrl)){
+    //       if (window.location.href.includes("login")){
+    //         this.$router.push("/")
+    //       }
+    //     }
+    //   }
+    // })
+
+
+
+
     if (localStorage.getItem("token") != null){
       if (checkToken(this.$domainUrl)){
         if (window.location.href.includes("login")){
@@ -24,18 +38,6 @@ export default {
       localStorage.setItem("uuid",this.$uuid.v4())
     }
   },
-
-  methods:{
-    async checkToken(){
-      try {
-        const response = await axios.get(`https://frp-hat.top:49728/login/CheckToken`);
-        return response.data.code === 200 || response.data.code === 6000;
-      } catch (error) {
-        return false;
-      }
-    }
-  }
-
 }
 const checkToken = async (domain) => {
   try {

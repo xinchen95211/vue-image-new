@@ -220,6 +220,7 @@ export default {
 .slider{
   width: 90vw;
   height: 5vh;
-  padding-top: 10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 </style>

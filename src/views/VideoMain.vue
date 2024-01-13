@@ -222,5 +222,6 @@ export default {
   width: 90vw;
   height: 5vh;
   padding-top: 10px;
+  padding-bottom: 6px;
 }
 </style>

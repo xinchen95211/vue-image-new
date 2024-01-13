@@ -100,6 +100,11 @@ export default defineComponent({
     login(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          const loading = ElLoading.service({
+            lock: true,
+            text: '正在登陆请稍后...',
+            background: 'rgba(0, 0, 0, 1)',
+          })
           axios.post(`${this.$domainUrl}/login`,this.ruleForm,{headers: {
               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
             }
@@ -107,12 +112,14 @@ export default defineComponent({
             if (e.data.code === 2000){
               localStorage.setItem("token",e.data.data.token)
               ElMessage.success(e.data.message)
-              this.openFullScreen2();
               setTimeout(() => {
                 this.$router.replace("/");
               }, 2000);
             }
           })
+          setTimeout(() => {
+            loading.close();
+          }, 4000);
         } else {
           return false;
         }
