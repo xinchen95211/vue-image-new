@@ -29,6 +29,7 @@
 import PhotoCard from '../components/PhotoCard.vue'
 import TabsVips from  '../components/TabsVips.vue'
 import axios from "axios";
+import {ElLoading} from "element-plus";
 
 export default {
   name: "PhotoMain",
@@ -144,12 +145,17 @@ export default {
     },
     //图片加载
     imgListLoad(){
+      const loading = ElLoading.service({
+        lock: true,
+        text: '正在加载中请稍后...如果此状态时间过长请刷新重试',
+        background: 'rgba(0, 0, 0, 0.8)',
+      })
+      this.imgList = [];
       axios.post(`${this.$domainUrl}/photo`, {
         "tables": this.tableName,
         "search": this.search,
         "row": this.currentPage
       }).then(res => {
-        this.imgList = []
         if (res.data.code === 200){
           this.$refs.photoCard.clearLoading();
           this.imgList = res.data.data.records;
@@ -158,7 +164,6 @@ export default {
           this.totalPage = res.data.data.pages;
           let e = JSON.stringify(res.data.data);
           localStorage.setItem("superData",e)
-
           this.imgList.forEach(e =>{
             this.$getValue("photo_" + e.id).then(photo =>{
               if (photo == null){
@@ -168,6 +173,12 @@ export default {
             })
           })
         }
+        loading.close();
+      }).catch(()=>{
+        setTimeout(() => {
+          loading.close();
+          this.imgListLoad();
+        }, 5000);
       })
     },
     //翻页逻辑

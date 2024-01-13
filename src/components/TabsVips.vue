@@ -28,52 +28,62 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              分类1
+              精
             </a>
             <ul class="dropdown-menu">
               <li v-for="(item,i) of tablebs"
                   :key="item"
-              ><a  v-if="i % 5 === 0" class="dropdown-item"  @click="handleSelect(item.tablesname)">{{ item.name }}</a></li>
+              ><a  v-if="i % 6 === 0" class="dropdown-item" :class="buttonStyle[i]" @click="handleSelect(item.tablesname,i)">{{ item.name }}</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              分类2
+              品
             </a>
             <ul class="dropdown-menu">
               <li v-for="(item,i) of tablebs"
                   :key="item"
-              ><a  v-if="i % 5 === 1" class="dropdown-item"  @click="handleSelect(item.tablesname)">{{ item.name }}</a></li>
+              ><a  v-if="i % 6 === 1" class="dropdown-item" :class="buttonStyle[i]" @click="handleSelect(item.tablesname,i)">{{ item.name }}</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" role="button"    data-bs-toggle="dropdown" aria-expanded="false">
+             美
+            </a>
+            <ul class="dropdown-menu">
+              <li v-for="(item,i) of tablebs"
+                  :key="item"
+              ><a  v-if="i % 6 === 2" class="dropdown-item" :class="buttonStyle[i]" @click="handleSelect(item.tablesname,i)">{{ item.name }}</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" role="button"  data-bs-toggle="dropdown" aria-expanded="false">
+              图
+            </a>
+            <ul class="dropdown-menu">
+              <li v-for="(item,i) of tablebs"
+                  :key="item"
+              ><a  v-if="i % 6 === 3" class="dropdown-item" :class="buttonStyle[i]"  @click="handleSelect(item.tablesname,i)">{{ item.name }}</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              分类3
+              鉴
             </a>
             <ul class="dropdown-menu">
               <li v-for="(item,i) of tablebs"
                   :key="item"
-              ><a  v-if="i % 5 === 2" class="dropdown-item"  @click="handleSelect(item.tablesname)">{{ item.name }}</a></li>
+              ><a  v-if="i % 6 === 4" class="dropdown-item" :class="buttonStyle[i]" @click="handleSelect(item.tablesname,i)">{{ item.name }}</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              分类4
+              赏
             </a>
             <ul class="dropdown-menu">
               <li v-for="(item,i) of tablebs"
                   :key="item"
-              ><a  v-if="i % 5 === 3" class="dropdown-item"  @click="handleSelect(item.tablesname)">{{ item.name }}</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              分类5
-            </a>
-            <ul class="dropdown-menu">
-              <li v-for="(item,i) of tablebs"
-                  :key="item"
-              ><a  v-if="i % 5 === 4" class="dropdown-item"  @click="handleSelect(item.tablesname)">{{ item.name }}</a></li>
+              ><a  v-if="i % 6 === 5" class="dropdown-item" :class="buttonStyle[i]" @click="handleSelect(item.tablesname,i)">{{ item.name }}</a></li>
             </ul>
           </li>
         </ul>
@@ -210,6 +220,9 @@ export default {
   color: var(--el-color-primary);
   display: flex;
   align-items: center;
+}
+.primary{
+  color: var(--el-color-primary);;
 }
 
 

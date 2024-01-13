@@ -26,8 +26,8 @@
       <div class="collapse navbar-collapse hidden-md-and-down" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0"  >
 
-          <li class="nav-item" v-for="(item) of tablesd" :key="item">
-            <a class="nav-link" aria-current="page" @click="handleSelect(item.tablesname)" >{{ item.name }}</a>
+          <li class="nav-item" v-for="(item,i) of tablesd" :key="item">
+            <a class="nav-link" aria-current="page" :class="buttonStyle[i]" @click="handleSelect(item.tablesname,i)" >{{ item.name }}</a>
           </li>
         </ul>
 
@@ -155,7 +155,9 @@ export default {
   display: flex;
   align-items: center;
 }
-
+.primary{
+  color: var(--el-color-primary);;
+}
 
 
 </style>
