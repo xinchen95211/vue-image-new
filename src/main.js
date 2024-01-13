@@ -23,6 +23,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 //域名
 elementApp.config.globalProperties.$domainUrl = "https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728"
+// elementApp.config.globalProperties.$domainUrl = "http://localhost:9999"
 
 
 // 请求拦截器
@@ -48,7 +49,7 @@ axios.interceptors.response.use(function(response){
                     break;
                 }
                 case 4004 : {this.$router.push('/error');break}
-                case 4003 : case 4012 : case 4013 :{
+                case 4003 : case 4012 : case 4013 : case 4006:{
                     ElMessage.error(response.data.message);
                     break
                 }

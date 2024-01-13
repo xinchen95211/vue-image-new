@@ -25,7 +25,7 @@
         没有账户?
         <a style="color: blue" @click="this.$router.push('/register')">注册一个</a>
       </div>
-      <div @cilck="noRegister">不想注册请点我</div>
+      <div @click="noRegister">不想注册请点我</div>
     </div>
 
 </template>

@@ -4,7 +4,7 @@
       <tabs-vips @handleSelect="handleSelect" @handleSearch="handleSearch" @toggleDark="toggleDark"  :is-dark="isDark"></tabs-vips>
     <div class="centers">
       <div class="slider">
-        <el-slider v-model="currentPage" :min="minPage" :max="totalPage" @change="changePage"/>
+        <el-slider v-model="currentPage" :min="minPage" :max="totalPage" @change="changePage" show-input size="small"/>
       </div>
     </div>
     </div>
@@ -219,6 +219,7 @@ export default {
 }
 .slider{
   width: 90vw;
-  height: 5vh
+  height: 5vh;
+  padding-top: 10px;
 }
 </style>

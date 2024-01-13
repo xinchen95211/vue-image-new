@@ -5,7 +5,7 @@
       <div class="centers">
         <!--      <paglina-tion  :totalCount="totalCount" :currentPage="currentPage" @pageTurning="pageTurning"></paglina-tion>-->
         <div class="slider">
-          <el-slider v-model="currentPage" :min="minPage" :max="totalPage" @change="changePage"/>
+          <el-slider v-model="currentPage" :min="minPage" :max="totalPage" @change="changePage" show-input size="small"/>
         </div>
       </div>
     </div>
@@ -220,6 +220,7 @@ export default {
 }
 .slider{
   width: 90vw;
-  height: 5vh
+  height: 5vh;
+  padding-top: 10px;
 }
 </style>
