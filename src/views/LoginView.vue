@@ -112,9 +112,9 @@ export default defineComponent({
             if (e.data.code === 2000){
               localStorage.setItem("token",e.data.data.token)
               ElMessage.success(e.data.message)
-              setTimeout(() => {
-                this.$router.replace("/");
-              }, 2000);
+              // setTimeout(() => {
+              this.$router.replace("/");
+              // }, 2000);
             }
           })
           setTimeout(() => {
