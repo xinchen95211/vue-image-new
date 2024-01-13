@@ -26,7 +26,7 @@
       <div class="collapse navbar-collapse hidden-md-and-down" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0"  >
 
-          <li class="nav-item" v-for="(item) of tablebs" :key="item">
+          <li class="nav-item" v-for="(item) of tablesd" :key="item">
             <a class="nav-link" aria-current="page" @click="handleSelect(item.tablesname)" >{{ item.name }}</a>
           </li>
         </ul>
@@ -59,8 +59,8 @@
 <!--    <el-button :icon="Search"   style="width: 100%"></el-button>-->
 
 
-    <div v-for="item of tablebs" :key="item">
-      <el-button @click="handleSelect(item.tablesname)" style="width: 100%">
+    <div v-for="(item,i) of tablesd" :key="item">
+      <el-button @click="handleSelect(item.tablesname,i)" :type="buttonStyle[i]" style="width: 100%">
         {{item.name}}
       </el-button>
       <br>
@@ -77,6 +77,8 @@ export default {
       drawer: false,
       inputText:'',
       Search:Search,
+      buttonStyle:new Array(2).fill(''),
+      tablesd:[{"id":1,"tablesname":"/","name":"首页"},{"id":2,"tablesname":"like","name":"我喜欢"}],
     }
   },
   created() {
@@ -102,9 +104,12 @@ export default {
     handleClose(done) {
       done();
     },
-    handleSelect(item){
+    handleSelect(item,i){
+      for (let j = 0; j < this.buttonStyle.length; j++) {
+        this.buttonStyle[j] = '';
+      }
+      this.buttonStyle[i] = 'primary';
       this.inputText = ''
-      console.log(item)
       this.$emit("handleSelect",item)
 
     },
@@ -128,7 +133,6 @@ export default {
   },
   props:{
     isDark:Boolean,
-    tablebs:Array
   },
   watch:{
     isDark(){

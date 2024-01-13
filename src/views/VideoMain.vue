@@ -1,7 +1,7 @@
 <template>
   <div :class="isDark ? 'darks':''" >
     <div :style="{ height: tabHeight }">
-      <tabs-video @handleSelect="handleSelect" @handleSearch="handleSearch" @toggleDark="toggleDark" :tablebs="tablesd" :is-dark="isDark"></tabs-video>
+      <tabs-video @handleSelect="handleSelect" @handleSearch="handleSearch" @toggleDark="toggleDark"  :is-dark="isDark"></tabs-video>
       <div class="centers">
         <!--      <paglina-tion  :totalCount="totalCount" :currentPage="currentPage" @pageTurning="pageTurning"></paglina-tion>-->
         <div class="slider">
@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <div  v-infinite-scroll="load" class="infinite-list" style="overflow: auto;"  :style="{ height: cardHeight }">
+    <div  v-infinite-scroll="load" class="infinite-list" infinite-scroll-immediate="false" style="overflow: auto;"  :style="{ height: cardHeight }">
       <photo-card ref="photoCard" :imglist="imgList" @selectItem="selectItem" @selectStar="selectStar" ></photo-card>
       <div class="centers">
         <p v-if="pLoading" style="color:skyblue;font-size: 20px;">正在努力加载中</p>
@@ -31,7 +31,6 @@ export default {
   name: "PhotoMain",
   data() {
     return {
-      tablesd:[{"id":1,"tablesname":"/","name":"首页"},{"id":2,"tablesname":"like","name":"我喜欢"}],
       cardHeight: '',
       tabHeight: '',
       folderHeight: '',
@@ -138,6 +137,7 @@ export default {
         "row": this.currentPage
       }).then(res => {
         if (res.data.code === 200) {
+          this.imgList = [];
           this.$refs.photoCard.clearLoading();
           this.imgList = res.data.data.records;
           this.totalCount = res.data.data.total;

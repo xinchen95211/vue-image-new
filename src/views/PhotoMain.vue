@@ -8,7 +8,7 @@
       </div>
     </div>
     </div>
-        <div  v-infinite-scroll="load" class="infinite-list" style="overflow: auto;"  :style="{ height: cardHeight }">
+        <div  v-infinite-scroll="load" infinite-scroll-immediate="false" class="infinite-list" style="overflow: auto;"  :style="{ height: cardHeight }">
         <photo-card ref="photoCard" :imglist="imgList" @selectItem="selectItem" @selectStar="selectStar" ></photo-card>
           <div class="centers">
             <p v-if="pLoading" style="color:skyblue;font-size: 20px;">正在努力加载中</p>
@@ -144,12 +144,12 @@ export default {
     },
     //图片加载
     imgListLoad(){
-      this.imgList = []
       axios.post(`${this.$domainUrl}/photo`, {
         "tables": this.tableName,
         "search": this.search,
         "row": this.currentPage
       }).then(res => {
+        this.imgList = []
         if (res.data.code === 200){
           this.$refs.photoCard.clearLoading();
           this.imgList = res.data.data.records;
