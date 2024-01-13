@@ -43,7 +43,7 @@ export default {
       //图片数据
       imgList: [],
       //当前分类
-      tableName:'Aiyouwu',
+      tableName:localStorage.getItem("superTableName") == null?'Aiyouwu':localStorage.getItem("superTableName"),
       //当前页码
       currentPage: 1,
       //搜索内容
@@ -75,10 +75,6 @@ export default {
       this.isDark = false
     }else {
       this.isDark = (item === "0");
-    }
-    let tablenamd = localStorage.getItem("superTableName");
-    if (tablenamd != null){
-      this.tableName = tablenamd;
     }
     let superdata = localStorage.getItem("superData");
     if (superdata != null){

@@ -40,7 +40,7 @@ export default {
       //图片数据
       imgList: [],
       //当前分类
-      tableName: '',
+      tableName: localStorage.getItem("superVideoTable") == null ? '/':localStorage.getItem("superVideoTable"),
       //当前页码
       currentPage: 1,
       //搜索内容
@@ -73,10 +73,7 @@ export default {
     } else {
       this.isDark = (item === "0");
     }
-    let tablenamd = localStorage.getItem("superVideoTable");
-    if (tablenamd != null){
-      this.tableName = tablenamd;
-    }
+
     let superdata = localStorage.getItem("superVideoData");
     if (superdata != null){
       let parse = JSON.parse(superdata);
