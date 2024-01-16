@@ -166,10 +166,10 @@ export default {
       done();
     },
     handleSelect(item,i){
-      // if (item === 'photo'){
-      //   ElMessage.warning("禁止色色")
-      //   return;
-      // }
+      if (item === 'photo'){
+        ElMessage.warning("禁止色色")
+        return;
+      }
 
       for (let j = 0; j < this.buttonStyle.length; j++) {
         this.buttonStyle[j] = '';
