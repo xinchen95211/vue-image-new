@@ -150,8 +150,8 @@ export default {
   },
   methods:{
     goVideo(){
-      // ElMessage.error("防止被查已禁止")
-      this.$router.push("/video")
+      ElMessage.warning("防止被查已禁止")
+      // this.$router.push("/video")
     },
     handleCommand(command) {
       switch (command){
@@ -167,7 +167,7 @@ export default {
     },
     handleSelect(item,i){
       // if (item === 'photo'){
-      //   ElMessage.error("禁止色色")
+      //   ElMessage.warning("禁止色色")
       //   return;
       // }
 

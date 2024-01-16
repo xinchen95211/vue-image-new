@@ -29,6 +29,7 @@ export default {
         title: '', //视频名称
         pageFullScreen:false,
         webFullScreen:true,
+        fullscreen:true,
         src:"",
         controlBtns:['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen']
       },

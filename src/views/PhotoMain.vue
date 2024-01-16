@@ -109,12 +109,8 @@ export default {
               let e = JSON.stringify(res.data.data);
               localStorage.setItem("superData",e)
               this.imgList.forEach(e =>{
-                this.$getValue("photo_" + e.id).then(photo =>{
-                  if (photo == null){
                     let date = JSON.stringify(e);
                     this.$setValue("photo_" + e.id,date);
-                  }
-                })
               })
 
             }
@@ -161,12 +157,8 @@ export default {
           let e = JSON.stringify(res.data.data);
           localStorage.setItem("superData",e)
           this.imgList.forEach(e =>{
-            this.$getValue("photo_" + e.id).then(photo =>{
-              if (photo == null){
-                let date = JSON.stringify(e);
-                this.$setValue("photo_" + e.id,date);
-              }
-            })
+            let date = JSON.stringify(e);
+            this.$setValue("photo_" + e.id,date);
           })
         }
         loading.close();
