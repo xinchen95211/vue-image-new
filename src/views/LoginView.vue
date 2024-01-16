@@ -110,7 +110,14 @@ export default defineComponent({
             }
           }).then(e => {
             if (e.data.code === 2000){
+              this.$authorities.length = 0;
               localStorage.setItem("token",e.data.data.token)
+              e.data.data.virgoUserVO.authorities.forEach(e => {
+                this.$authorities.push(e.authority);
+              })
+              this.$username = e.data.data.virgoUserVO.username
+              localStorage.setItem("username",this.$username)
+              localStorage.setItem("authorities",JSON.stringify(this.$authorities))
               ElMessage.success(e.data.message)
               // setTimeout(() => {
               this.$router.replace("/");

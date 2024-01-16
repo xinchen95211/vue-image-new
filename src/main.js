@@ -42,6 +42,20 @@ elementApp.config.globalProperties.$isLocalStoragebSupport = typeof window.local
 elementApp.config.globalProperties.$setValue = (key,value) => {localforage.setItem(key, value);}
 elementApp.config.globalProperties.$getValue = (key) => { return localforage.getItem(key)}
 
+elementApp.config.globalProperties.$authorities = [];
+
+let item = localStorage.getItem("authorities");
+if (item != null){
+    elementApp.config.globalProperties.$authorities = JSON.parse(item);
+}
+
+let username = localStorage.getItem("username");
+if (username != null){
+    elementApp.config.globalProperties.$username = username;
+}else {
+    elementApp.config.globalProperties.$username = 'user';
+}
+
 
 // 请求拦截器
 axios.interceptors.request.use(function (config) {
@@ -52,6 +66,8 @@ axios.interceptors.request.use(function (config) {
     router.push('/error');
     return Promise.reject(error)
 })
+
+
 
 axios.interceptors.response.use(function(response){
         if (response.data){

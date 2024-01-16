@@ -4,7 +4,7 @@
       <el-dropdown trigger="click"  class="navbar-brand" @command="handleCommand">
     <span>
       <div>
-          <el-avatar> user </el-avatar>
+          <el-avatar> {{ this.$username }} </el-avatar>
       </div>
     </span>
         <template #dropdown>

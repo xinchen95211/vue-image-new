@@ -4,7 +4,7 @@
       <el-dropdown trigger="click"  class="navbar-brand" @command="handleCommand">
     <span>
       <div>
-          <el-avatar> user </el-avatar>
+          <el-avatar> {{ this.$username }} </el-avatar>
       </div>
     </span>
         <template #dropdown>
@@ -150,8 +150,11 @@ export default {
   },
   methods:{
     goVideo(){
-      ElMessage.warning("防止被查已禁止")
-      // this.$router.push("/video")
+      if (this.$authorities.includes("VIDEO")){
+        this.$router.push("/video")
+      }else {
+        ElMessage.warning("防止被查已禁止")
+      }
     },
     handleCommand(command) {
       switch (command){
@@ -166,7 +169,7 @@ export default {
       done();
     },
     handleSelect(item,i){
-      if (item === 'photo'){
+      if (item === 'photo' && !this.$authorities.includes("ROLE_ADMIN")){
         ElMessage.warning("禁止色色")
         return;
       }
