@@ -8,7 +8,7 @@
       </div>
     </div>
     </div>
-        <div  v-infinite-scroll="load" infinite-scroll-immediate="false" class="infinite-list" style="overflow: auto;"  :style="{ height: cardHeight }">
+        <div  infinite-scroll-immediate="false" class="infinite-list" style="overflow: auto;"  :style="{ height: cardHeight }">
         <photo-card ref="photoCard" :imglist="imgList" @selectItem="selectItem" @selectStar="selectStar" ></photo-card>
           <div class="centers">
             <p v-if="pLoading" style="color:skyblue;font-size: 20px;">正在努力加载中</p>
@@ -30,7 +30,21 @@ import PhotoCard from '../components/PhotoCard.vue'
 import TabsVips from  '../components/TabsVips.vue'
 import axios from "axios";
 import {ElLoading} from "element-plus";
-
+const timeStrapCheck = (name) => {
+  let item = localStorage.getItem(name);
+  if (item == null){
+    return false;
+  }else {
+    let parse = JSON.parse(item);
+    let time = new Date();
+    return parse < time;
+  }
+}
+const addTimeStrap = (name) =>{
+  let time = new Date();
+  time.setDate(time.getDate() + 5);
+  localStorage.setItem(name,JSON.stringify(time))
+}
 export default {
   name: "PhotoMain",
   data(){
@@ -86,8 +100,6 @@ export default {
     }else {
       this.imgListLoad();
     }
-
-
   },
   methods:{
     load(){
@@ -98,28 +110,36 @@ export default {
           this.pmore = false;
           this.pLoading=true;
           this.currentPage += 1;
-          axios.post(`${this.$domainUrl}/photo`, {
-            "tables": this.tableName,
-            "search": this.search,
-            "row": this.currentPage
-          }).then(res => {
-            if (res.data.code === 200){
-              this.imgList=this.imgList.concat(res.data.data.records);
-              this.pLoading=false;
-              let e = JSON.stringify(res.data.data);
-              localStorage.setItem("superData",e)
-              this.imgList.forEach(e =>{
+          let b = timeStrapCheck(this.tableName + "_Time_" + this.currentPage);
+          this.$getValue(this.tableName + "_" + this.currentPage).then(tableData => {
+            if (tableData == null || b){
+              axios.post(`${this.$domainUrl}/photo`, {
+                "tables": this.tableName,
+                "search": this.search,
+                "row": this.currentPage
+              }).then(res => {
+                if (res.data.code === 200){
+                  this.imgList=this.imgList.concat(res.data.data.records);
+                  res.data.data.records.forEach(e =>{
                     let date = JSON.stringify(e);
                     this.$setValue("photo_" + e.id,date);
-              })
-
+                    e.collection = [];
+                  })
+                  let e = JSON.stringify(res.data.data);
+                  localStorage.setItem("superData",e)
+                  this.$setValue(this.tableName + "_" + this.currentPage,res.data.data)
+                }
+                addTimeStrap(this.tableName + "_Time_" + this.currentPage)
+              }).catch(()=>{
+                    this.pLoading=false;
+                    this.currentPage -= 1;
+                }
+              )
+            }else {
+              let resf = tableData;
+              this.imgList=this.imgList.concat(resf.records);
             }
-          }).catch(error => {
-                this.pLoading=false;
-                this.currentPage -= 1;
-                console.log(error)
-              }
-          )
+          })
         }
       }
     },
@@ -143,31 +163,53 @@ export default {
         background: 'rgba(0, 0, 0, 0.8)',
       })
       this.imgList = [];
-      axios.post(`${this.$domainUrl}/photo`, {
-        "tables": this.tableName,
-        "search": this.search,
-        "row": this.currentPage
-      }).then(res => {
-        if (res.data.code === 200){
-          this.$refs.photoCard.clearLoading();
-          this.imgList = res.data.data.records;
-          this.totalCount = res.data.data.total;
-          this.currentPage = res.data.data.current;
-          this.totalPage = res.data.data.pages;
-          let e = JSON.stringify(res.data.data);
-          localStorage.setItem("superData",e)
-          this.imgList.forEach(e =>{
-            let date = JSON.stringify(e);
-            this.$setValue("photo_" + e.id,date);
-          })
-        }
-        loading.close();
-      }).catch(()=>{
-        setTimeout(() => {
-          loading.close();
-          this.imgListLoad();
-        }, 5000);
-      })
+      let b = timeStrapCheck(this.tableName + "_Time_" + this.currentPage);
+      this.$getValue(this.tableName + "_" + this.currentPage).then(tableData => {
+          if (tableData == null || b){
+            axios.post(`${this.$domainUrl}/photo`, {
+              "tables": this.tableName,
+              "search": this.search,
+              "row": this.currentPage
+            }).then(res => {
+              if (res.data.code === 200){
+                this.$refs.photoCard.clearLoading();
+                this.imgList = res.data.data.records;
+                this.totalCount = res.data.data.total;
+                this.currentPage = res.data.data.current;
+                this.totalPage = res.data.data.pages;
+                res.data.data.records.forEach(e =>{
+                  let date = JSON.stringify(e);
+                  this.$setValue("photo_" + e.id,date);
+                  e.collection = [];
+                })
+                let e = JSON.stringify(res.data.data);
+                localStorage.setItem("superData",e)
+                this.$setValue(this.tableName + "_" + this.currentPage,res.data.data)
+              }
+              addTimeStrap(this.tableName + "_Time_" + this.currentPage)
+              loading.close();
+            }).catch(()=>{
+              setTimeout(() => {
+                loading.close();
+                this.imgListLoad();
+              }, 5000);
+            })
+          }else {
+            let resf = tableData;
+            this.$refs.photoCard.clearLoading();
+            this.imgList = resf.records;
+            this.totalCount = resf.total;
+            this.currentPage = resf.current;
+            this.totalPage = resf.pages;
+            loading.close();
+          }
+
+        })
+
+
+
+
+
     },
     //翻页逻辑
     pageTurning(e){

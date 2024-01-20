@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative;z-index: -999; ">
-    <vue3VideoPlay v-bind="options" :poster="poster"/>
+    <vue3VideoPlay id="vueVideo" v-bind="options" :poster="poster" @error="errorLoad"/>
   </div>
 <!--  <div class="zan">-->
 <!--    <el-icon size="50px" color="skyblue" @click="selectStar(id)">-->
@@ -33,15 +33,45 @@ export default {
         src:"",
         controlBtns:['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen']
       },
-      poster:''
+      poster:'',
+      domainList:[],
+      iterateeCount:0,
+      videoURI:'',
     }
   },
   created() {
     // this.poster=this.$route.query.poster
     // this.getVideoUrl(this.$route.query.id);
-    this.getVideoUrl(this.id)
+    // this.getVideoUrl(this.id)
+    this.mount(this.id)
   },
   methods:{
+    mount(id) {
+      // let res = localStorage.getItem("photo_" + id);
+      this.$getValue("video_" + id).then(res => {
+        if (res == null) {
+          axios.get(`${this.$domainUrl}/video/` + id).then(e => {
+            if (e.data.code === 200) {
+              let date = JSON.stringify(e.data.data);
+              this.$setValue("video_" + id, date)
+              this.loadimg(date)
+            }
+          }).catch(error => {
+                console.log("error" + error)
+              }
+          )
+        } else {
+          this.loadimg(res)
+        }
+      })
+    },
+    loadimg(res){
+      let data = JSON.parse(res);
+      this.domainList = data.domainList;
+      this.videoURI = data.videoUri;
+      this.options.src = data.domain + data.videoUri;
+      this.poster = data.domain + '/' + data.prefix + '/' +data.suffix + '/' +data.thumbnail;
+    },
     // selectStar(id){
     //   axios.get("api/video/like/" + id).then(e => {
     //     if (e.data.code === 2001) {
@@ -55,12 +85,31 @@ export default {
           if (e.data.data == null){
             ElMessage.error("这个视频暂时有问题,换一个看看吧")
           }else{
-            this.options.src = e.data.data
+            let dates = JSON.stringify(e.data.data);
+            this.$setValue("video_" + id, dates)
+            let data = e.data.data;
+            this.domainList = data.domainList;
+            this.videoURI = data.videoUri;
+            this.options.src = data.domain + data.videoUri;
+            this.poster = data.domain + '/' + data.prefix + '/' +data.suffix + '/' +data.thumbnail;
+
           }
         }
       })
+    },
+    errorLoad(){
+      if (this.options.src === ''){return;}
+
+      if (this.iterateeCount === this.domainList.length){
+        ElMessage.error("这个视频有点问题，换一个看看吧")
+        return;
+      }
+      this.options.src = this.domainList[this.iterateeCount] + this.videoURI;
+      console.log(this.options.src)
+      this.iterateeCount++;
     }
   },
+
   props:{
     id:String
   }

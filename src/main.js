@@ -33,8 +33,9 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 elementApp.config.globalProperties.$localforage = localforage;
 
 //域名
-elementApp.config.globalProperties.$domainUrl = "https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728";
-// elementApp.config.globalProperties.$domainUrl = "http://192.168.223.117:9999"
+// elementApp.config.globalProperties.$domainUrl = "https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728";
+// elementApp.config.globalProperties.$domainUrl = "http://192.168.0.187:9999"
+elementApp.config.globalProperties.$domainUrl = "http://localhost:9999"
 
 elementApp.config.globalProperties.$isIndexDbSupport = typeof window.indexedDB !== 'undefined';
 elementApp.config.globalProperties.$isLocalStoragebSupport = typeof window.localStorage !== 'undefined';

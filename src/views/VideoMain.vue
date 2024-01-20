@@ -104,6 +104,10 @@ export default {
               this.imgList = this.imgList.concat(res.data.data.records);
               this.pLoading = false;
               let e = JSON.stringify(res.data.data);
+              res.data.data.records.forEach(fe => {
+                let date = JSON.stringify(fe);
+                this.$setValue("video_" + fe.id,date);
+              })
               localStorage.setItem("superVideoData",e)
             }
           }).catch(error => {
@@ -147,6 +151,10 @@ export default {
           this.currentPage = res.data.data.current;
           this.totalPage = res.data.data.pages;
           let e = JSON.stringify(res.data.data);
+          res.data.data.records.forEach(e => {
+            let date = JSON.stringify(e);
+            this.$setValue("video_" + e.id,date);
+          })
           localStorage.setItem("superVideoData",e)
         }
         loading.close();

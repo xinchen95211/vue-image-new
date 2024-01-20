@@ -19,10 +19,11 @@
               </div>
               <div  class="related_box"  @click="selectItem(item.id)">
                 <el-image
-                    :src="item.domain + '/' +item.prefix + '/' + item.suffix + '/' + item.thumbnail "
+                    :src="item.domain + '/' + item.prefix + '/' + item.suffix + '/' + item.thumbnail"
                     fit="cover"
                     class="el-image"
                     @load="loading[i] = false"
+                    @error="errorLoad(i)"
                 >
                 </el-image>
                 <div>
@@ -50,11 +51,14 @@ export default {
   data(){
     return{
       loading:[],
-      random:1
+      random:1,
+      domainCount:[],
+      domainList:["https://yaoyao.dynv6.net","https://wanfengbuwan.dynv6.net","https://huifaguang.dynv6.net"]
     }
   },
   created() {
     this.random = Math.floor(Math.random() * 100);
+    this.domainCount = new Array(this.imglist.length).fill(0);
   },
   methods:{
     selectItem(id){
@@ -70,6 +74,17 @@ export default {
       alert("开发中")
       // this.$emit("selectDownload",id)
     },
+    errorLoad(i){
+      if (this.domainCount[i] > this.domainList.length){
+        return;
+      }
+      console.log(this.imglist[i].domain + this.domainCount[i])
+      this.imglist[i].domain = this.domainList[this.domainCount[i]]
+      console.log(this.imglist[i].domain)
+      this.domainCount[i] = this.domainCount[i]+1
+      console.log(this.domainCount[i])
+
+    }
   },
   props: {
     imglist: Array,

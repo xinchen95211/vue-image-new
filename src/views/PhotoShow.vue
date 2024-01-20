@@ -12,11 +12,12 @@
     >
         <div  class="related_box">
           <el-image
-              :src="item"
+              :src="this.domain + '/' + this.prefix + '/' + this.suffix + '/' + item"
               fit="cover"
               :preview-src-list="imgList"
               class="el-image"
               @load="loading[i] = false"
+              :initial-index="i"
           >
           </el-image>
         </div>
@@ -40,7 +41,9 @@ export default {
       suffix: "",
       collection:[],
       imgList:[],
-      isDark:false
+      isDark:false,
+      // domainCount:[],
+      // domainList:["https://yaoyao.dynv6.net","https://wanfengbuwan.dynv6.net","https://huifaguang.dynv6.net"]
     }
   },
   created() {
@@ -100,9 +103,18 @@ export default {
       this.suffix = resf.suffix;
       this.domain = resf.domain;
       let parse = JSON.parse(resf.collection);
-      parse.forEach(item => {
-        this.imgList.push(this.domain + "/" + this.prefix + "/" + this.suffix + '/' + item)
-      })
+      this.imgList = parse;
+      this.domainCount = new Array(this.imglist.length).fill(0);
+    },
+    errorLoad(i){
+      // if (this.domainCount[i] > this.domainList.length){
+      //   return;
+      // }
+      // console.log(this.imglist[i].domain + this.domainCount[i])
+      // this.imglist[i].domain = this.domainList[this.domainCount[i]]
+      // console.log(this.imglist[i].domain)
+      // this.domainCount[i] = this.domainCount[i]+1
+      // console.log(this.domainCount[i])
     }
   },
 
