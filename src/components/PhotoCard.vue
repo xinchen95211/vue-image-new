@@ -22,6 +22,7 @@
                     :src="item.domain + '/' + item.prefix + '/' + item.suffix + '/' + item.thumbnail + 't?123213'"
                     fit="cover"
                     class="el-image"
+                    crossOrigin="anonymous"
                     @load="loading[i] = false"
                     @error="errorLoad(i)"
                 >
