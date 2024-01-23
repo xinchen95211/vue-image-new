@@ -14,6 +14,8 @@ import '@/style/LoginCSS.css'
 import axios from "axios";
 import router from './router/router.js'
 import localforage from 'localforage';
+import cookies from 'vue-cookies'
+
 
 localforage.config({
     name:'virgo',
@@ -31,6 +33,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     elementApp.component(key, component)
 }
 elementApp.config.globalProperties.$localforage = localforage;
+elementApp.config.globalProperties.$cookies = cookies;
 
 //域名
 // elementApp.config.globalProperties.$domainUrl = "https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728";
@@ -98,7 +101,7 @@ axios.interceptors.response.use(function(response){
         }
         return response
     },function (error){
-        ElMessage.error("与服务器链接发生了点错误,请稍后再试")
+        // ElMessage.error("与服务器链接发生了点错误,请稍后再试")
         return Promise.reject(error)
     }
 )

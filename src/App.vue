@@ -39,6 +39,7 @@ export default {
 
     if (localStorage.getItem("token") != null){
       if (checkToken(this.$domainUrl)){
+        ElMessage.success("与服务器连接正常")
         if (window.location.href.includes("login")){
           this.$router.push("/")
         }

@@ -33,6 +33,7 @@
 import {defineComponent} from "vue";
 import axios from "axios";
 import {ElLoading, ElMessage} from "element-plus";
+import { Base64 } from 'js-base64';
 
 export default defineComponent({
   data() {
@@ -89,7 +90,12 @@ export default defineComponent({
     };
   },
   created() {
-    // this.getCheckCodeImgPost();
+    let username = this.$cookies.get("dXNlcm5hbWU%3D");
+    let password = this.$cookies.get("cGFzc3dvcmQ%3D");
+    if (username != null){
+      this.ruleForm.username = Base64.decode(username);
+      this.ruleForm.password = Base64.decode(password);
+    }
 
   },
   methods: {
@@ -122,11 +128,20 @@ export default defineComponent({
               // setTimeout(() => {
               this.$router.replace("/");
               // }, 2000);
+              setTimeout(() => {
+                loading.close();
+              }, 2000);
+              //记住用户名密码
+              this.$cookies.set("dXNlcm5hbWU%3D",Base64.encode(this.ruleForm.username));
+              this.$cookies.set("cGFzc3dvcmQ%3D",Base64.encode(this.ruleForm.password));
+            }else {
+              loading.close();
             }
-          })
-          setTimeout(() => {
+          }).catch(() =>{
             loading.close();
-          }, 5000);
+            ElMessage.error("与服务器连接发生错误，请稍后再试")
+          })
+
         } else {
           return false;
         }

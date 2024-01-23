@@ -172,9 +172,6 @@ export default {
         timeStampCheckName = this.search + "_Time_" + this.currentPage;
         getValueName = this.search + "_" + this.currentPage;
       }
-      // console.log(timeStampCheckName);
-      // console.log(getValueName);
-
       let b = timeStrapCheck(timeStampCheckName);
       this.$getValue(getValueName).then(tableData => {
           if (tableData == null || b || this.tableName === 'like'){
@@ -194,8 +191,6 @@ export default {
                   this.$setValue("photo_" + e.id,date);
                   e.collection = [];
                 })
-                let e = JSON.stringify(res.data.data);
-                localStorage.setItem("superData",e)
                 this.$setValue(getValueName,res.data.data)
               }
               addTimeStrap(this.tableName + "_Time_" + this.currentPage)
@@ -215,13 +210,49 @@ export default {
             this.totalPage = resf.pages;
             loading.close();
           }
-
         })
-
-
-
-
-
+      //执行预加载
+      this.PreLoadStart(this.currentPage+1,0);
+    },
+    PreLoadStart(pageNumber,count){
+      if (pageNumber > this.totalPage || count >= 10){
+        return;
+      }else {
+        this.Preload(pageNumber)
+        this.PreLoadStart(++pageNumber,++count)
+      }
+    },
+    //预加载数据
+    Preload(page){
+      let timeStampCheckName;
+      let getValueName;
+      if (this.search === ''){
+        timeStampCheckName = this.tableName + "_Time_" + page;
+        getValueName = this.tableName + "_" + page;
+      }else {
+        timeStampCheckName = this.search + "_Time_" + page;
+        getValueName = this.search + "_" + page;
+      }
+      let b = timeStrapCheck(timeStampCheckName);
+      this.$getValue(getValueName).then(tableData => {
+        if (tableData == null || b || this.tableName === 'like') {
+          axios.post(`${this.$domainUrl}/photo`, {
+            "tables": this.tableName,
+            "search": this.search,
+            "row": page
+          }).then(res => {
+            if (res.data.code === 200) {
+              res.data.data.records.forEach(e => {
+                let date = JSON.stringify(e);
+                this.$setValue("photo_" + e.id, date);
+                e.collection = [];
+              })
+              this.$setValue(getValueName, res.data.data)
+            }
+            addTimeStrap(this.tableName + "_Time_" + this.currentPage)
+          })
+        }
+      })
     },
     //翻页逻辑
     pageTurning(e){

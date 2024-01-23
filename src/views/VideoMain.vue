@@ -157,7 +157,7 @@ export default {
       this.imgList = [];
       let b = timeStrapCheck("Video_Time_" + this.currentPage);
       this.$getValue("Video_" + this.currentPage).then(tableData => {
-            if (tableData == null || b){
+            if (tableData == null || b || this.tableName === 'like'){
               axios.post(`${this.$domainUrl}/video`, {
                 "tag": this.tableName,
                 "row": this.currentPage
@@ -184,7 +184,7 @@ export default {
                   this.imgListLoad();
                 }, 5000);
             })
-      }else {
+          }else {
               let resf = tableData;
               this.$refs.photoCard.clearLoading();
               this.imgList = resf.records;
@@ -192,7 +192,35 @@ export default {
               this.currentPage = resf.current;
               this.totalPage = resf.pages;
               loading.close();
+          }
+      })
+      this.PreLoadStart(this.currentPage+1,0);
+    },
+    PreLoadStart(pageNumber,count){
+      if (pageNumber > this.totalPage || count >= 10){
+        return;
+      }else {
+        this.Preload(pageNumber)
+        this.PreLoadStart(++pageNumber,++count)
+      }
+    },
+    Preload(page){
+      let b = timeStrapCheck("Video_Time_" + page);
+      this.$getValue("Video_" + page).then(tableData => {
+        if (tableData == null || b) {
+          axios.post(`${this.$domainUrl}/video`, {
+            "tag": this.tableName,
+            "row": page
+          }).then(res => {
+            if (res.data.code === 200) {
+              res.data.data.records.forEach(e => {
+                this.$setValue("video_" + e.id, JSON.stringify(e));
+              })
+              this.$setValue("Video_" + page, res.data.data)
+              addTimeStrap("Video_Time_" + page)
             }
+          })
+        }
       })
     },
     //翻页逻辑
