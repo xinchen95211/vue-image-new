@@ -11,7 +11,7 @@
           <el-dropdown-menu>
             <el-dropdown-item command="dark" v-if="!isDark">深色模式</el-dropdown-item>
             <el-dropdown-item command="dark" v-if="isDark">浅色模式</el-dropdown-item>
-            <el-dropdown-item command="goback">返回上一页</el-dropdown-item>
+            <el-dropdown-item command="clear">清除缓存</el-dropdown-item>
             <el-dropdown-item command="retrievePassword">修改密码</el-dropdown-item>
             <el-dropdown-item command="logout">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
@@ -159,7 +159,12 @@ export default {
     handleCommand(command) {
       switch (command){
         case "dark":{this.toggleDark(); break}
-        case "goback":{this.$router.go(-1);break}
+        case "clear":{
+          this.$deleteAll();
+          let token = localStorage.getItem("token");
+          localStorage.clear();
+          localStorage.setItem("token",token);
+          break}
         case "logout":{this.$router.replace("/logout");break}
         case "retrievePassword":{this.$router.replace("/retrievePassword");break}
         default : {console.log(command);break}

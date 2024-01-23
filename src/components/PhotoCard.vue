@@ -75,7 +75,7 @@ export default {
       // this.$emit("selectDownload",id)
     },
     errorLoad(i){
-      if (this.domainCount[i] > this.domainList.length){
+      if (this.domainCount[i] >= this.domainList.length){
         return;
       }
       console.log(this.imglist[i].domain + this.domainCount[i])

@@ -163,9 +163,21 @@ export default {
         background: 'rgba(0, 0, 0, 0.8)',
       })
       this.imgList = [];
-      let b = timeStrapCheck(this.tableName + "_Time_" + this.currentPage);
-      this.$getValue(this.tableName + "_" + this.currentPage).then(tableData => {
-          if (tableData == null || b){
+      let timeStampCheckName;
+      let getValueName;
+      if (this.search === ''){
+      timeStampCheckName = this.tableName + "_Time_" + this.currentPage;
+      getValueName = this.tableName + "_" + this.currentPage;
+      }else {
+        timeStampCheckName = this.search + "_Time_" + this.currentPage;
+        getValueName = this.search + "_" + this.currentPage;
+      }
+      // console.log(timeStampCheckName);
+      // console.log(getValueName);
+
+      let b = timeStrapCheck(timeStampCheckName);
+      this.$getValue(getValueName).then(tableData => {
+          if (tableData == null || b || this.tableName === 'like'){
             axios.post(`${this.$domainUrl}/photo`, {
               "tables": this.tableName,
               "search": this.search,
@@ -184,7 +196,7 @@ export default {
                 })
                 let e = JSON.stringify(res.data.data);
                 localStorage.setItem("superData",e)
-                this.$setValue(this.tableName + "_" + this.currentPage,res.data.data)
+                this.$setValue(getValueName,res.data.data)
               }
               addTimeStrap(this.tableName + "_Time_" + this.currentPage)
               loading.close();
@@ -224,7 +236,7 @@ export default {
       this.currentPage = 1;
       this.tableName = item
       localStorage.setItem("superTableName",item)
-      this.search = ""
+      this.search = ''
     },
     //搜索逻辑
     handleSearch(e){

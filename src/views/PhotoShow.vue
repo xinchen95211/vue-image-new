@@ -12,12 +12,13 @@
     >
         <div  class="related_box">
           <el-image
-              :src="this.domain + '/' + this.prefix + '/' + this.suffix + '/' + item"
+              :src="item"
               fit="cover"
               :preview-src-list="imgList"
               class="el-image"
               @load="loading[i] = false"
               :initial-index="i"
+              @error="errorLoad(i)"
           >
           </el-image>
         </div>
@@ -42,8 +43,9 @@ export default {
       collection:[],
       imgList:[],
       isDark:false,
-      // domainCount:[],
-      // domainList:["https://yaoyao.dynv6.net","https://wanfengbuwan.dynv6.net","https://huifaguang.dynv6.net"]
+      items:[],
+      domainCount:[],
+      domainList:["https://yaoyao.dynv6.net","https://wanfengbuwan.dynv6.net","https://huifaguang.dynv6.net"]
     }
   },
   created() {
@@ -81,20 +83,6 @@ export default {
           this.loadimg(res)
         }
       })
-      // if (res == null){
-      //     axios.get(`${this.$domainUrl}/photo/` + id).then(e => {
-      //       if (e.data.code === 200){
-      //         res = JSON.stringify(e.data.data);
-      //         localStorage.setItem("photo_" + id,res)
-      //         this.loadimg(res)
-      //       }
-      //     }).catch(error => {
-      //           console.log("error" + error)
-      //         }
-      //     )
-      // }else {
-      //   this.loadimg(res)
-      // }
     },
     loadimg(res){
       let resf = JSON.parse(res);
@@ -103,18 +91,18 @@ export default {
       this.suffix = resf.suffix;
       this.domain = resf.domain;
       let parse = JSON.parse(resf.collection);
-      this.imgList = parse;
-      this.domainCount = new Array(this.imglist.length).fill(0);
+      this.items = parse;
+      this.domainCount = new Array(parse.length).fill(0);
+      parse.forEach(item => {
+        this.imgList.push(this.domain + "/" + this.prefix + "/" + this.suffix + '/' + item)
+      })
     },
     errorLoad(i){
-      // if (this.domainCount[i] > this.domainList.length){
-      //   return;
-      // }
-      // console.log(this.imglist[i].domain + this.domainCount[i])
-      // this.imglist[i].domain = this.domainList[this.domainCount[i]]
-      // console.log(this.imglist[i].domain)
-      // this.domainCount[i] = this.domainCount[i]+1
-      // console.log(this.domainCount[i])
+      if (this.domainCount[i] >= this.domainList.length){
+        return;
+      }
+      this.imgList[i] = this.domainList[this.domainCount[i]] + "/" + this.prefix + "/" + this.suffix + '/' + this.items[i]
+      this.domainCount[i] = this.domainCount[i]+1
     }
   },
 
