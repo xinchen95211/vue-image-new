@@ -194,14 +194,23 @@ export default {
               loading.close();
           }
       })
-      this.PreLoadStart(this.currentPage+1,0);
+      this.PreLoadStartAdd(this.currentPage+1,0);
+      this.PreLoadStartMiuns(this.currentPage-1,0);
     },
-    PreLoadStart(pageNumber,count){
-      if (pageNumber > this.totalPage || count >= 10){
+    PreLoadStartAdd(pageNumber,count){
+      if (pageNumber > this.totalPage || count >= 5){
         return;
       }else {
         this.Preload(pageNumber)
-        this.PreLoadStart(++pageNumber,++count)
+        this.PreLoadStartAdd(++pageNumber,++count)
+      }
+    },
+    PreLoadStartMiuns(pageNumber,count){
+      if (pageNumber < 1 || count >= 5){
+        return;
+      }else {
+        this.Preload(pageNumber)
+        this.PreLoadStartMiuns(--pageNumber,++count)
       }
     },
     Preload(page){
