@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://1234560.dynv6.net/$1"
+    }
+  ]
+}
