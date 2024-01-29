@@ -161,6 +161,7 @@ export default {
         case "dark":{this.toggleDark(); break}
         case "clear":{
           this.$deleteAll();
+          ElMessage.success('缓存清除成功');
           let token = localStorage.getItem("token");
           localStorage.clear();
           localStorage.setItem("token",token);
