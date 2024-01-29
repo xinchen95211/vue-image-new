@@ -31,10 +31,10 @@ import {ElLoading} from "element-plus";
 const timeStrapCheck = (name) => {
   let item = localStorage.getItem(name);
   if (item == null){
-    return false;
+    return true;
   }else {
     let parse = JSON.parse(item);
-    let time = new Date();
+    let time = new Date().toISOString();
     return parse < time;
   }
 }
@@ -168,16 +168,15 @@ export default {
                   this.totalCount = res.data.data.total;
                   this.currentPage = res.data.data.current;
                   this.totalPage = res.data.data.pages;
-                  let e = JSON.stringify(res.data.data);
                   res.data.data.records.forEach(e => {
                     let date = JSON.stringify(e);
                     this.$setValue("video_" + e.id,date);
                   })
-                  localStorage.setItem("superVideoData",e)
                   this.$setValue("Video_" + this.currentPage,res.data.data)
                   addTimeStrap("Video_Time_" + this.currentPage)
                 }
                 loading.close();
+                localStorage.setItem("superVideoData",JSON.stringify(res.data.data));
               }).catch(() => {
                 setTimeout(() => {
                   loading.close();
@@ -192,7 +191,9 @@ export default {
               this.currentPage = resf.current;
               this.totalPage = resf.pages;
               loading.close();
+              localStorage.setItem("superVideoData",JSON.stringify(tableData));
           }
+
       })
       this.PreLoadStartAdd(this.currentPage+1,0);
       this.PreLoadStartMiuns(this.currentPage-1,0);

@@ -36,9 +36,9 @@ elementApp.config.globalProperties.$localforage = localforage;
 elementApp.config.globalProperties.$cookies = cookies;
 
 //域名
-// elementApp.config.globalProperties.$domainUrl = "https://vernelproxy.dynv6.net/proxy/frp-hat.top:49728";
+// elementApp.config.globalProperties.$domainUrl = "https://vernelproxy.dynv6.net/proxy/frp-fun.top:49728";
 // elementApp.config.globalProperties.$domainUrl = "http://192.168.0.187:9999"
-// elementApp.config.globalProperties.$domainUrl = "http://localhost:9999"
+// elementApp.config.globalProperties.$domainUrl = "/api"
  elementApp.config.globalProperties.$domainUrl = "https://1234560.dynv6.net";
 
 elementApp.config.globalProperties.$isIndexDbSupport = typeof window.indexedDB !== 'undefined';
@@ -80,10 +80,10 @@ axios.interceptors.response.use(function(response){
                 case 6000 : {this.$localStrong.setItem("token",response.data.data);break}
                 case 4001 : {
                     ElMessage.error(response.data.message);
-                    this.$localStrong.removeItem("token");
+                    localStorage.removeItem("token");
                     setTimeout(() => {
                             location.replace("/#/login");
-                            }, 20000)
+                            }, 3000)
                     break;
                 }
                 case 4004 : {this.$router.push('/error');break}

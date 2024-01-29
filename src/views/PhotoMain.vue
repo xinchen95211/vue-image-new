@@ -33,10 +33,10 @@ import {ElLoading} from "element-plus";
 const timeStrapCheck = (name) => {
   let item = localStorage.getItem(name);
   if (item == null){
-    return false;
+    return true;
   }else {
     let parse = JSON.parse(item);
-    let time = new Date();
+    let time = new Date().toISOString();
     return parse < time;
   }
 }
@@ -181,6 +181,7 @@ export default {
               "row": this.currentPage
             }).then(res => {
               if (res.data.code === 200){
+
                 this.$refs.photoCard.clearLoading();
                 this.imgList = res.data.data.records;
                 this.totalCount = res.data.data.total;
@@ -195,6 +196,7 @@ export default {
               }
               addTimeStrap(this.tableName + "_Time_" + this.currentPage)
               loading.close();
+              localStorage.setItem("superData",JSON.stringify( res.data.data));
             }).catch(()=>{
               setTimeout(() => {
                 loading.close();
@@ -209,8 +211,10 @@ export default {
             this.currentPage = resf.current;
             this.totalPage = resf.pages;
             loading.close();
+            localStorage.setItem("superData",JSON.stringify(tableData));
           }
         })
+
       //执行预加载
       this.PreLoadStartAdd(this.currentPage+1,0);
       this.PreLoadStartMiuns(this.currentPage-1,0)
@@ -244,7 +248,7 @@ export default {
       }
       let b = timeStrapCheck(timeStampCheckName);
       this.$getValue(getValueName).then(tableData => {
-        if (tableData == null || b || this.tableName === 'like') {
+        if (tableData == null || b) {
           axios.post(`${this.$domainUrl}/photo`, {
             "tables": this.tableName,
             "search": this.search,
@@ -257,8 +261,8 @@ export default {
                 e.collection = [];
               })
               this.$setValue(getValueName, res.data.data)
+              addTimeStrap(timeStampCheckName)
             }
-            addTimeStrap(this.tableName + "_Time_" + this.currentPage)
           })
         }
       })
