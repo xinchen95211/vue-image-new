@@ -38,8 +38,8 @@ elementApp.config.globalProperties.$cookies = cookies;
 //域名
 // elementApp.config.globalProperties.$domainUrl = "https://vernelproxy.dynv6.net/proxy/frp-fun.top:49728";
 // elementApp.config.globalProperties.$domainUrl = "http://192.168.0.187:9999"
-// elementApp.config.globalProperties.$domainUrl = "/api"
- elementApp.config.globalProperties.$domainUrl = "https://1234560.dynv6.net";
+elementApp.config.globalProperties.$domainUrl = "/api"
+ // elementApp.config.globalProperties.$domainUrl = "https://1234560.dynv6.net";
 
 elementApp.config.globalProperties.$isIndexDbSupport = typeof window.indexedDB !== 'undefined';
 elementApp.config.globalProperties.$isLocalStoragebSupport = typeof window.localStorage !== 'undefined';
