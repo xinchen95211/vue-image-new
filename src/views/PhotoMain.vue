@@ -224,7 +224,7 @@ export default {
 
     },
     PreLoadStartAdd(pageNumber,count){
-      if (pageNumber > this.totalPage || count >= 8){
+      if (pageNumber > this.totalPage || count >= 5){
       }else {
         let timeStampCheckName;
         if (this.search === ''){
@@ -240,7 +240,7 @@ export default {
       }
     },
     PreLoadStartMiuns(pageNumber,count){
-      if (pageNumber < 1 || count >= 8){
+      if (pageNumber < 1 || count >= 5){
       }else {
         let timeStampCheckName;
         if (this.search === ''){

@@ -203,7 +203,7 @@ export default {
       this.Preload();
     },
     PreLoadStartAdd(pageNumber,count){
-      if (pageNumber > this.totalPage || count >= 8){
+      if (pageNumber > this.totalPage || count >= 5){
       }else {
         let b = timeStrapCheck("Video_Time_" + pageNumber);
         if (b){
@@ -213,7 +213,7 @@ export default {
       }
     },
     PreLoadStartMiuns(pageNumber,count){
-      if (pageNumber < 1 || count >= 8){
+      if (pageNumber < 1 || count >= 5){
       }else {
         let b = timeStrapCheck("Video_Time_" + pageNumber);
         if (b){
@@ -232,9 +232,9 @@ export default {
                 e.records.forEach(f => {
                   this.$setValue("video_" + f.id, JSON.stringify(f));
                 })
+                this.$setValue("Video_" + e.current, e)
+                addTimeStrap("Video_Time_" + e.current)
               })
-              this.$setValue("Video_" + e.current, e)
-              addTimeStrap("Video_Time_" + e.current)
             }
           })
     },
