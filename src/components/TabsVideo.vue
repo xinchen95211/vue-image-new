@@ -11,7 +11,7 @@
           <el-dropdown-menu>
             <el-dropdown-item command="dark" v-if="!isDark">深色模式</el-dropdown-item>
             <el-dropdown-item command="dark" v-if="isDark">浅色模式</el-dropdown-item>
-            <el-dropdown-item command="clear">清除缓存数据</el-dropdown-item>
+            <el-dropdown-item command="clear">清除缓存</el-dropdown-item>
             <el-dropdown-item command="retrievePassword">修改密码</el-dropdown-item>
             <el-dropdown-item command="logout">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
@@ -69,6 +69,7 @@
 </template>
 <script>
 import {Search} from '@element-plus/icons-vue'
+import {ElMessage} from "element-plus";
 
 export default {
   data(){
@@ -99,8 +100,14 @@ export default {
           this.$deleteAll();
           ElMessage.success('缓存清除成功');
           let token = localStorage.getItem("token");
+          let authorities = localStorage.getItem("authorities");
+          let isDark = localStorage.getItem("isDark");
+          let username = localStorage.getItem("username");
           localStorage.clear();
           localStorage.setItem("token",token);
+          localStorage.setItem("authorities",authorities);
+          localStorage.setItem("isDark",isDark);
+          localStorage.setItem("username",username);
           break}
         case "logout":{this.$router.replace("/logout");break}
         case "retrievePassword":{this.$router.replace("/retrievePassword");break}

@@ -67,7 +67,8 @@ export default {
       loading: [],
       //暗黑模式
       isDark: null,
-      pLoading: false
+      pLoading: false,
+      preLoadList:[]
     }
 
   },
@@ -195,43 +196,47 @@ export default {
           }
 
       })
+      this.preLoadList.length = 0;
+      //执行预加载
       this.PreLoadStartAdd(this.currentPage+1,0);
       this.PreLoadStartMiuns(this.currentPage-1,0);
+      this.Preload();
     },
     PreLoadStartAdd(pageNumber,count){
-      if (pageNumber > this.totalPage || count >= 5){
-        return;
+      if (pageNumber > this.totalPage || count >= 8){
       }else {
-        this.Preload(pageNumber)
+        let b = timeStrapCheck("Video_Time_" + pageNumber);
+        if (b){
+          this.preLoadList.push(pageNumber);
+        }
         this.PreLoadStartAdd(++pageNumber,++count)
       }
     },
     PreLoadStartMiuns(pageNumber,count){
-      if (pageNumber < 1 || count >= 5){
-        return;
+      if (pageNumber < 1 || count >= 8){
       }else {
-        this.Preload(pageNumber)
+        let b = timeStrapCheck("Video_Time_" + pageNumber);
+        if (b){
+          this.preLoadList.push(pageNumber);
+        }
         this.PreLoadStartMiuns(--pageNumber,++count)
       }
     },
-    Preload(page){
-      let b = timeStrapCheck("Video_Time_" + page);
-      this.$getValue("Video_" + page).then(tableData => {
-        if (tableData == null || b) {
-          axios.post(`${this.$domainUrl}/video`, {
+    Preload(){
+          axios.post(`${this.$domainUrl}/video/preload`, {
             "tag": this.tableName,
-            "row": page
+            "row": this.preLoadList
           }).then(res => {
             if (res.data.code === 200) {
-              res.data.data.records.forEach(e => {
-                this.$setValue("video_" + e.id, JSON.stringify(e));
+              res.data.data.forEach(e => {
+                e.records.forEach(f => {
+                  this.$setValue("video_" + f.id, JSON.stringify(f));
+                })
               })
-              this.$setValue("Video_" + page, res.data.data)
-              addTimeStrap("Video_Time_" + page)
+              this.$setValue("Video_" + e.current, e)
+              addTimeStrap("Video_Time_" + e.current)
             }
           })
-        }
-      })
     },
     //翻页逻辑
     pageTurning(e) {

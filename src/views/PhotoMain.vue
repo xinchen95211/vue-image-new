@@ -69,7 +69,8 @@ export default {
       loading:[],
       //暗黑模式
       isDark:null,
-      pLoading:false
+      pLoading:false,
+      preLoadList:[]
     }
 
   },
@@ -181,7 +182,6 @@ export default {
               "row": this.currentPage
             }).then(res => {
               if (res.data.code === 200){
-
                 this.$refs.photoCard.clearLoading();
                 this.imgList = res.data.data.records;
                 this.totalCount = res.data.data.total;
@@ -214,58 +214,80 @@ export default {
             localStorage.setItem("superData",JSON.stringify(tableData));
           }
         })
-
+      this.preLoadList.length = 0;
       //执行预加载
       this.PreLoadStartAdd(this.currentPage+1,0);
-      this.PreLoadStartMiuns(this.currentPage-1,0)
+      this.PreLoadStartMiuns(this.currentPage-1,0);
+
+      this.Preload();
+
+
     },
     PreLoadStartAdd(pageNumber,count){
-      if (pageNumber > this.totalPage || count >= 5){
-
+      if (pageNumber > this.totalPage || count >= 8){
       }else {
-        this.Preload(pageNumber)
+        let timeStampCheckName;
+        if (this.search === ''){
+          timeStampCheckName = this.tableName + "_Time_" + pageNumber;
+        }else {
+          timeStampCheckName = this.search + "_Time_" + pageNumber;
+        }
+        let b = timeStrapCheck(timeStampCheckName);
+        if (b){
+          this.preLoadList.push(pageNumber);
+        }
         this.PreLoadStartAdd(++pageNumber,++count)
       }
     },
     PreLoadStartMiuns(pageNumber,count){
-      if (pageNumber < 1 || count >= 5){
-
+      if (pageNumber < 1 || count >= 8){
       }else {
-        this.Preload(pageNumber)
+        let timeStampCheckName;
+        if (this.search === ''){
+          timeStampCheckName = this.tableName + "_Time_" + pageNumber;
+        }else {
+          timeStampCheckName = this.search + "_Time_" + pageNumber;
+        }
+        let b = timeStrapCheck(timeStampCheckName);
+        if (b){
+          this.preLoadList.push(pageNumber);
+        }
         this.PreLoadStartMiuns(--pageNumber,++count)
       }
     },
     //预加载数据
-    Preload(page){
+    Preload(){
+      let flag = false;
+      if (this.search === ''){
+        flag = true;
+      }
+      console.log(this.preLoadList)
       let timeStampCheckName;
       let getValueName;
-      if (this.search === ''){
-        timeStampCheckName = this.tableName + "_Time_" + page;
-        getValueName = this.tableName + "_" + page;
-      }else {
-        timeStampCheckName = this.search + "_Time_" + page;
-        getValueName = this.search + "_" + page;
-      }
-      let b = timeStrapCheck(timeStampCheckName);
-      this.$getValue(getValueName).then(tableData => {
-        if (tableData == null || b) {
-          axios.post(`${this.$domainUrl}/photo`, {
+          axios.post(`${this.$domainUrl}/photo/preload`, {
             "tables": this.tableName,
             "search": this.search,
-            "row": page
+            "row": this.preLoadList
           }).then(res => {
             if (res.data.code === 200) {
-              res.data.data.records.forEach(e => {
-                let date = JSON.stringify(e);
-                this.$setValue("photo_" + e.id, date);
-                e.collection = [];
+              res.data.data.forEach(e => {
+               e.records.forEach(f => {
+                  let date = JSON.stringify(f);
+                  this.$setValue("photo_" + f.id, date);
+                  f.collection = [];
+                })
+                if (flag){
+                  timeStampCheckName = this.tableName + "_Time_" + e.current;
+                  getValueName = this.tableName + "_" + e.current;
+                }else {
+                  timeStampCheckName = this.search + "_Time_" + e.current;
+                  getValueName = this.search + "_" + e.current;
+                }
+                this.$setValue(getValueName,e)
+                addTimeStrap(timeStampCheckName)
               })
-              this.$setValue(getValueName, res.data.data)
-              addTimeStrap(timeStampCheckName)
             }
-          })
-        }
-      })
+        })
     },
     //翻页逻辑
     pageTurning(e){

@@ -163,8 +163,14 @@ export default {
           this.$deleteAll();
           ElMessage.success('缓存清除成功');
           let token = localStorage.getItem("token");
+          let authorities = localStorage.getItem("authorities");
+          let isDark = localStorage.getItem("isDark");
+          let username = localStorage.getItem("username");
           localStorage.clear();
           localStorage.setItem("token",token);
+          localStorage.setItem("authorities",authorities);
+          localStorage.setItem("isDark",isDark);
+          localStorage.setItem("username",username);
           break}
         case "logout":{this.$router.replace("/logout");break}
         case "retrievePassword":{this.$router.replace("/retrievePassword");break}
