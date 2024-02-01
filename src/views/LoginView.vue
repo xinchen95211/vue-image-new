@@ -100,7 +100,7 @@ export default defineComponent({
   },
   methods: {
     noRegister(){
-      this.ruleForm.username = 'test';
+      this.ruleForm.username = 'test2';
       this.ruleForm.password = '1234567';
     },
     login(formName){
