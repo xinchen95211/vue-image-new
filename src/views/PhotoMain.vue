@@ -93,11 +93,15 @@ export default {
     }
     let superdata = localStorage.getItem("superData");
     if (superdata != null){
-      let parse = JSON.parse(superdata);
-      this.imgList = parse.records;
-      this.totalCount = parse.total;
-      this.currentPage = parse.current;
-      this.totalPage = parse.pages;
+      try {
+        let parse = JSON.parse(superdata);
+        this.imgList = parse.records;
+        this.totalCount = parse.total;
+        this.currentPage = parse.current;
+        this.totalPage = parse.pages;
+      }catch{
+        this.imgListLoad();
+      }
     }else {
       this.imgListLoad();
     }
