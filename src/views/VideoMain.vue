@@ -177,8 +177,10 @@ export default {
                     let date = JSON.stringify(e);
                     this.$setValue("video_" + e.id,date);
                   })
-                  this.$setValue("Video_" + this.currentPage,res.data.data)
-                  addTimeStrap("Video_Time_" + this.currentPage)
+                  if (this.tableName !== 'like'){
+                    this.$setValue("Video_" + this.currentPage,res.data.data)
+                    addTimeStrap("Video_Time_" + this.currentPage)
+                  }
                 }
                 loading.close();
                 localStorage.setItem("superVideoData",JSON.stringify(res.data.data));
@@ -236,8 +238,11 @@ export default {
                 e.records.forEach(f => {
                   this.$setValue("video_" + f.id, JSON.stringify(f));
                 })
-                this.$setValue("Video_" + e.current, e)
-                addTimeStrap("Video_Time_" + e.current)
+                if (this.tableName !== 'like'){
+                  this.$setValue("Video_" + e.current, e)
+                  addTimeStrap("Video_Time_" + e.current)
+                }
+
               })
             }
           })
