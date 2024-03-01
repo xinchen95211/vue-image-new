@@ -2,8 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      //"destination": "https://1234560.dynv6.net/$1"
-      "destination": "https://z51r1s5k.shenzhuo.vip:57531/$1"
+      "destination": "http://z51r1s5k.shenzhuo.vip:57531/$1"
     }
   ]
 }
