@@ -13,6 +13,8 @@
             <el-dropdown-item command="dark" v-if="isDark">浅色模式</el-dropdown-item>
             <el-dropdown-item command="clear">清除缓存</el-dropdown-item>
             <el-dropdown-item command="retrievePassword">修改密码</el-dropdown-item>
+            <el-dropdown-item command="Feedback">用户反馈</el-dropdown-item>
+            <el-dropdown-item command="suiji">随机视频</el-dropdown-item>
             <el-dropdown-item command="logout">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -110,6 +112,7 @@ export default {
           localStorage.setItem("username",username);
           break}
         case "logout":{this.$router.replace("/logout");break}
+        case "suiji":{this.$router.replace("/rdm");break}
         case "retrievePassword":{this.$router.replace("/retrievePassword");break}
         default : {console.log(command);break}
       }

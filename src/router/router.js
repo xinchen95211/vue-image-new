@@ -8,6 +8,8 @@ import RetrievePasswordView from "@/views/RetrievePasswordView.vue";
 import logoutView from "@/views/LogoutView.vue";
 import videoShow from "@/views/VideoShow.vue";
 import videoMain from "@/views/VideoMain.vue";
+import Manager from "@/views/ManagerView.vue";
+import RandomVideo from "@/views/RandomVideo.vue";
 
 const router = createRouter({
     history:createWebHashHistory(),
@@ -22,8 +24,16 @@ const router = createRouter({
             props:true
         },
         {
+            path:"/rdm",
+            component:RandomVideo,
+        },
+        {
             path:'/',
             component:PhotoMain
+        },
+        {
+            path:'/manager',
+            component:Manager
         },
         {
             path: "/show/:id",
@@ -55,7 +65,7 @@ const router = createRouter({
 
  router.beforeEach((to,from,next)=>{
      const token = localStorage.getItem("token");
-     if(to.path === '/login' || to.path === '/register'|| to.path === '/retrievePassword'|| to.path === '/error'){
+     if(to.path === '/login' || to.path === '/register'|| to.path === '/retrievePassword'|| to.path === '/error' || to.path === '/rdm'){
          next();
      }else{
          if(token == null || token === ''){

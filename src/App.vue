@@ -27,12 +27,12 @@ const addTimeStrap = (name) =>{
 export default {
   name:'app',
   created() {
-    let item = localStorage.getItem("message");
+    let item = localStorage.getItem("Mymessage");
     if (item == null){
-      ElMessageBox.alert('如遇问题可点击左上角头像框选择清除缓存', '通知', {
+      ElMessageBox.alert('如遇问题可点击左上角头像框选择清除缓存或反馈信息给开发者', '通知', {
         confirmButtonText: 'ok',
         callback: () => {
-          localStorage.setItem("message",'ok')
+          localStorage.setItem("Mymessage",'ok')
         },
       })
     }

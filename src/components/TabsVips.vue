@@ -13,6 +13,8 @@
             <el-dropdown-item command="dark" v-if="isDark">浅色模式</el-dropdown-item>
             <el-dropdown-item command="clear">清除缓存</el-dropdown-item>
             <el-dropdown-item command="retrievePassword">修改密码</el-dropdown-item>
+            <el-dropdown-item command="Feedback">用户反馈</el-dropdown-item>
+            <el-dropdown-item command="suiji">随机视频</el-dropdown-item>
             <el-dropdown-item command="logout">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -123,10 +125,11 @@
       <br>
     </div>
   </el-drawer>
+
 </template>
 <script>
 import {Search} from '@element-plus/icons-vue'
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 
 
@@ -149,6 +152,19 @@ export default {
 
   },
   methods:{
+    open() {
+      ElMessageBox.prompt('请输入反馈内容', 'Tip', {
+        confirmButtonText: '反馈',
+        cancelButtonText: '取消',
+        inputErrorMessage: '反馈内容',
+      })
+          .then(({ value }) => {
+            console.log(value);
+          })
+          .catch(() => {
+
+          })
+    },
     goVideo(){
       if (this.$authorities.includes("VIDEO")){
         this.$router.push("/video")
@@ -174,6 +190,8 @@ export default {
           break}
         case "logout":{this.$router.replace("/logout");break}
         case "retrievePassword":{this.$router.replace("/retrievePassword");break}
+        case "suiji":{this.$router.replace("/rdm");break}
+        case "Feedback":{this.open();break}
         default : {console.log(command);break}
       }
     },
