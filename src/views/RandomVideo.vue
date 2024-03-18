@@ -34,7 +34,7 @@ export default {
         title: '', //视频名称
         pageFullScreen:false,
         fullscreen:true,
-        src: "https://alimov2.a.kwimgs.com/upic/2023/08/03/16/BMjAyMzA4MDMxNjQ5MThfMjg4Mzc1MTA4OF8xMDk1ODM0NDMwMzRfMl8z_b_B7ef17b36344f6d9bf2d9e78b40abd1a6.mp4?clientCacheKey=3xygkip62k7bpci_b.mp4&tt=b&di=b72e16c7&bp=13414",
+        src: "http://api.yujn.cn/api/xjj.php?_t=0",
         controlBtns:['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen']
       },
       poster:'',
