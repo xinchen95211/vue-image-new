@@ -3,13 +3,13 @@
 
   <el-row :gutter="5" >
     <div class="centers"><h3>{{nameS}}</h3></div>
-    <el-col :xs="24"
-            v-for="(item,i) in imgList"
-            :key="item"
-            v-loading="loading[i] !== false"
-            element-loading-text="正在拼命加载中..."
-            element-loading-svg-view-box="-10, -10, 50, 50"
-    >
+      <el-col :xs="24"
+              v-for="(item,i) in imgList"
+              :key="item"
+              v-loading="loading[i] !== false"
+              element-loading-text="正在拼命加载中..."
+              element-loading-svg-view-box="-10, -10, 50, 50"
+      >
         <div  class="related_box">
           <el-image
               :src="item"
@@ -19,11 +19,11 @@
               @load="loading[i] = false"
               :initial-index="i"
               @error="errorLoad(i)"
+              lazy
           >
           </el-image>
         </div>
-
-    </el-col>
+      </el-col>
   </el-row>
 
 </div>
@@ -45,7 +45,7 @@ export default {
       isDark:false,
       items:[],
       domainCount:[],
-      domainList:["https://yaoyao.dynv6.net","https://wanfengbuwan.dynv6.net","https://huifaguang.dynv6.net"]
+      domainList:["https://yaoyao.dynv6.net","https://wanfengbuwan.dynv6.net","https://huifaguang.dynv6.net"],
     }
   },
   created() {
@@ -96,6 +96,7 @@ export default {
       parse.forEach(item => {
         this.imgList.push(this.domain + "/" + this.prefix + "/" + this.suffix + '/' + item)
       })
+      this.imgCount = this.imgList.length;
     },
     errorLoad(i){
       if (this.domainCount[i] >= this.domainList.length){
