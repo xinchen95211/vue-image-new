@@ -199,7 +199,7 @@ export default {
       done();
     },
     handleSelect(item,i){
-      if (item === 'photo' && !this.$authorities.includes("ROLE_ADMIN")){
+      if (item === 'photo' && !this.$authorities.includes("PHOTO")){
         ElMessage.warning("禁止色色")
         return;
       }
