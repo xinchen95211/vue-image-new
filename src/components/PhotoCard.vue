@@ -22,7 +22,7 @@
                     :src="item.domain + '/' + item.prefix + '/' + item.suffix + '/' + item.thumbnail"
                     fit="cover"
                     class="el-image"
-                    @load="loading[i] = false"
+                    @load="successLoad(i)"
                     @error="errorLoad(i)"
                 >
                 </el-image>
@@ -58,7 +58,7 @@ export default {
   },
   created() {
     this.random = Math.floor(Math.random() * 100);
-    this.domainCount = new Array(this.imglist.length).fill(0);
+    this.domainCount = new Array(48).fill(0);
   },
   methods:{
     selectItem(id){
@@ -75,7 +75,7 @@ export default {
       // this.$emit("selectDownload",id)
     },
     errorLoad(i){
-      if (this.domainCount[i] >= this.domainList.length){
+      if (this.domainCount[i]+1 >= this.domainList.length){
         return;
       }
       console.log(this.imglist[i].domain + this.domainCount[i])
@@ -83,7 +83,10 @@ export default {
       console.log(this.imglist[i].domain)
       this.domainCount[i] = this.domainCount[i]+1
       console.log(this.domainCount[i])
-
+    },
+    successLoad(i){
+      this.loading[i] = false;
+      this.domainCount[i] = 0;
     }
   },
   props: {
