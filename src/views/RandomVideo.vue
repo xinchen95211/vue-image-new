@@ -2,7 +2,7 @@
   <div style="position: relative; margin-top: 10px" >
     <vue3VideoPlay id="vueVideo" v-bind="options" :poster="poster" @error="errorLoad"/>
   </div>
-  <div style="display: flex;justify-content: center;">
+  <div style="display: flex;justify-content: center; margin-top: 10px">
     <el-button type="primary" @click="mount" >点击换一个</el-button>
   </div>
 
