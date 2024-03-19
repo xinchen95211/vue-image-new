@@ -36,8 +36,6 @@ export default {
         },
       })
     }
-
-
     // this.$getValue('token').then(e => {
     //   if (e != null){
     //     if (checkToken(this.$domainUrl)){
@@ -47,8 +45,10 @@ export default {
     //     }
     //   }
     // })
-
-
+    console.log(window.location.hash)
+    if (window.location.hash === "#/rdm"){
+      return;
+    }
 
 
     if (localStorage.getItem("token") != null){

@@ -1,9 +1,10 @@
 <template>
   <div style="position: relative; margin-top: 10px" >
-    <vue3VideoPlay id="vueVideo" v-bind="options" :poster="poster" @error="errorLoad"/>
+    <vue3VideoPlay id="vueVideo" v-bind="options" :poster="poster" @error="errorLoad" />
   </div>
-  <div style="display: flex;justify-content: center; margin-top: 10px">
-    <el-button type="primary" @click="mount" >点击换一个</el-button>
+  <div style="margin-top: 10px;">
+    <el-button type="primary" @click="mount" style="float:left; margin-left: 50%" >点击换一个</el-button>
+    <el-button type="primary" @click="mount" style="float:left; margin-left: 25%" >点击换一个2</el-button>
   </div>
 
 <!--  <div class="zan">-->
@@ -105,9 +106,6 @@ export default {
       })
     },
     errorLoad(){
-
-      if (this.options.src === ''){return;}
-
       if (this.iterateeCount === this.domainList.length){
         ElMessage.error("这个视频有点问题，换一个看看吧")
         return;
@@ -124,10 +122,5 @@ export default {
   float: right;
   margin-top:500px;
   margin-right: 10px;
-}
-html{
-  height: 100%;
-  width: 100%;
-  background-image: linear-gradient(to right, #FFFFFF,#FFFFFF);
 }
 </style>
