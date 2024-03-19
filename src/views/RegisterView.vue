@@ -45,6 +45,7 @@
 
 import axios from "axios";
 import {ElLoading, ElMessage} from "element-plus";
+import {Base64} from "js-base64";
 
 export default {
   name: "RegisterView",
@@ -131,8 +132,11 @@ export default {
           })
           axios.post(`${this.$domainUrl}/register`,this.ruleForm).then(e => {
             if (e.data.code === 210){
+              this.$cookies.set("dXNlcm5hbWU%3D",Base64.encode(this.ruleForm.username));
+              this.$cookies.set("cGFzc3dvcmQ%3D",Base64.encode(this.ruleForm.password));
               loading.close()
               ElMessage.success(e.data.message)
+              this.$router.push("/login")
             }
           })
         } else {
