@@ -45,10 +45,6 @@ export default {
     //     }
     //   }
     // })
-    console.log(window.location.hash)
-    if (window.location.hash === "#/rdm"){
-      return;
-    }
 
 
     if (localStorage.getItem("token") != null){

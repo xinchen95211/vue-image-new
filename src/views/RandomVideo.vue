@@ -4,7 +4,6 @@
   </div>
   <div style="margin-top: 10px;">
     <el-button type="primary" @click="mount" style="float:left; margin-left: 50%" >点击换一个</el-button>
-    <el-button type="primary" @click="mount" style="float:left; margin-left: 25%" >点击换一个2</el-button>
   </div>
 
 <!--  <div class="zan">-->
