@@ -3,7 +3,7 @@
     <vue3VideoPlay id="vueVideo" v-bind="options" :poster="poster" @error="errorLoad" />
   </div>
   <div style="margin-top: 10px;">
-    <el-button type="primary" @click="mount" style="float:left; margin-left: 50%" >点击换一个</el-button>
+    <el-button type="primary" @click="mount" style="float:left; margin-left: 40%" >点击换一个</el-button>
   </div>
 
 <!--  <div class="zan">-->
