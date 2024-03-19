@@ -161,7 +161,8 @@ export default {
           this.timer(time)
           axios.get(`${this.$domainUrl}/register/getEmailCheckCode/${this.ruleForm.email}`).then(e => {
             if (e.data.code === 200) {
-              ElMessage.success(e.data.data)
+              // ElMessage.success(e.data.data)
+              this.ruleForm.emailCheckCode = e.data.data;
             }
           })
         }else {
