@@ -34,7 +34,7 @@ export default {
         title: '', //视频名称
         pageFullScreen:false,
         fullscreen:true,
-        src: "http://api.yujn.cn/api/xjj.php?_t=0",
+        src: "https://api.yujn.cn/api/xjj.php?_t=0",
         controlBtns:['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen']
       },
       poster:'',
