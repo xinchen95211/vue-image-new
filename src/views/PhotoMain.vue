@@ -168,15 +168,26 @@ export default {
             if (e.data.code === 200){
               let date = JSON.stringify(e.data.data);
               this.$setValue("photo_" + i,date)
-              this.downloadPhoto(date)
+              // this.downloadPhoto(date)
+              this.downle(date);
             }
           }).catch(error => {
                 console.log("error" + error)
               }
           )
         }else {
-          this.downloadPhoto(res)
-                  }
+          // this.downloadPhoto(res)
+          this.downle(res);
+        }
+      })
+    },
+    downle(res){
+      let resf = JSON.parse(res);
+      let parse = JSON.parse(resf.collection);
+      let count = 0;
+      parse.forEach(item => {
+        this.ddle(resf.domain + "/" + resf.prefix + "/" + resf.suffix + '/' + item,count);
+        count++;
       })
     },
     downloadPhoto(res){
@@ -379,6 +390,23 @@ export default {
         }
       }
     },
+    ddle(url,count){
+      let iframe = document.getElementById("iframe" +count);
+      if (iframe == null){
+        const iframe = document.createElement("iframe");
+        iframe.setAttribute("id","iframe"+ count)
+        iframe.setAttribute("hidden","hidden");
+        document.body.appendChild(iframe);
+        iframe.onload = () => {
+          if(iframe){
+            iframe.setAttribute('src','about:blank');
+          }
+        };
+        iframe.setAttribute("src",url);
+      }else {
+        iframe.setAttribute("src",url);
+      }
+    }
 },
 
   components: {

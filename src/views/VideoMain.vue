@@ -314,15 +314,21 @@ export default {
       })
     },
     ddle(url){
-        const iframe = document.createElement("iframe");
-        iframe.setAttribute("hidden","hidden");
-        document.body.appendChild(iframe);
-        iframe.onload = () => {
-          if(iframe){
-            iframe.setAttribute('src','about:blank');
-          }
-        };
-        iframe.setAttribute("src",url);
+        let iframe = document.getElementById("iframe");
+        if (iframe == null){
+          const iframe = document.createElement("iframe");
+          iframe.setAttribute("id","iframe")
+          iframe.setAttribute("hidden","hidden");
+          document.body.appendChild(iframe);
+          iframe.onload = () => {
+            if(iframe){
+              iframe.setAttribute('src','about:blank');
+            }
+          };
+          iframe.setAttribute("src",url);
+        }else {
+          iframe.setAttribute("src",url);
+        }
     }
   },
 
