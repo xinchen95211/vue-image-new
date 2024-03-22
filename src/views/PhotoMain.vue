@@ -151,7 +151,7 @@ export default {
     },
     selectItem(id){
       // this.$router.push('/show/'+ id)
-      window.open('/show/'+ id);
+      window.open('/#/show/'+ id);
     },
     selectStar(i){
       console.log(this.imgList[i].id);
