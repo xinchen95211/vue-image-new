@@ -13,9 +13,9 @@
                   <star v-if="!item.star" />
                   <star-filled v-if="item.star" />
                 </el-icon>
-<!--                <el-icon size="30px" color="lightblue" @click="selectDownload" >-->
-<!--                  <Download />-->
-<!--                </el-icon>-->
+                <el-icon size="30px" color="lightblue" @click="selectDownload(item.id)" >
+                  <Download />
+                </el-icon>
               </div>
               <div  class="related_box"  @click="selectItem(item.id)">
                 <el-image
@@ -44,6 +44,7 @@
 <script>
 
 import { Star, StarFilled} from "@element-plus/icons-vue";
+import loadZip from "@/router/loadZip.js";
 
 export default {
   name: 'PhotoCard',
@@ -70,9 +71,8 @@ export default {
     selectStar(i){
       this.$emit("selectStar",i)
     },
-    selectDownload(){
-      alert("开发中")
-      // this.$emit("selectDownload",id)
+    selectDownload(i){
+      this.$emit("selectDownload",i)
     },
     errorLoad(i){
       if (this.domainCount[i]+1 >= this.domainList.length){

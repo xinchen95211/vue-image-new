@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="infinite-list" infinite-scroll-immediate="false" style="overflow: auto;"  :style="{ height: cardHeight }">
-      <photo-card ref="photoCard" :imglist="imgList" @selectItem="selectItem" @selectStar="selectStar" ></photo-card>
+      <photo-card ref="photoCard" :imglist="imgList" @selectItem="selectItem" @selectStar="selectStar" @selectDownload="selectDownload">></photo-card>
       <div class="centers">
         <p v-if="pLoading" style="color:skyblue;font-size: 20px;">正在努力加载中</p>
         <p v-if="pmore" style="color:skyblue;font-size: 20px;">已经没有数据可以加载了</p>
@@ -286,6 +286,44 @@ export default {
         }
       }
     },
+    selectDownload(id){
+      const loading = ElLoading.service({
+        lock: true,
+        text: '正在准备下载连接，请稍后...',
+        background: 'rgba(0, 0, 0, 0.8)',
+      })
+      this.$getValue("video_" + id).then(res => {
+        if (res == null) {
+          axios.get(`${this.$domainUrl}/video/` + id).then(e => {
+            if (e.data.code === 200) {
+              let date = JSON.stringify(e.data.data);
+              this.$setValue("video_" + id, date)
+              this.ddle(date.domain + date.videoUri);
+            }
+          }).catch(error => {
+                console.log("error" + error)
+              }
+          )
+        } else {
+          let data = JSON.parse(res);
+          this.ddle(data.domain + data.videoUri)
+        }
+        setTimeout(() => {
+          loading.close();
+        }, 3000);
+      })
+    },
+    ddle(url){
+        const iframe = document.createElement("iframe");
+        iframe.setAttribute("hidden","hidden");
+        document.body.appendChild(iframe);
+        iframe.onload = () => {
+          if(iframe){
+            iframe.setAttribute('src','about:blank');
+          }
+        };
+        iframe.setAttribute("src",url);
+    }
   },
 
   components: {

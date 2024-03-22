@@ -9,7 +9,7 @@
     </div>
     </div>
         <div  infinite-scroll-immediate="false" class="infinite-list" style="overflow: auto;"  :style="{ height: cardHeight }">
-        <photo-card ref="photoCard" :imglist="imgList" @selectItem="selectItem" @selectStar="selectStar" ></photo-card>
+        <photo-card ref="photoCard" :imglist="imgList" @selectItem="selectItem" @selectStar="selectStar" @selectDownload="selectDownload"></photo-card>
           <div class="centers">
             <p v-if="pLoading" style="color:skyblue;font-size: 20px;">正在努力加载中</p>
             <p v-if="pmore" style="color:skyblue;font-size: 20px;">已经没有数据可以加载了</p>
@@ -30,6 +30,7 @@ import PhotoCard from '../components/PhotoCard.vue'
 import TabsVips from  '../components/TabsVips.vue'
 import axios from "axios";
 import {ElLoading} from "element-plus";
+import loadZip from "@/router/loadZip.js";
 const timeStrapCheck = (name) => {
   let item = localStorage.getItem(name);
   if (item == null){
@@ -159,6 +160,52 @@ export default {
           this.imgList[i].star = !this.imgList[i].star;
         }
       })
+    },
+    selectDownload(i){
+      this.$getValue("photo_" + i).then(res => {
+        if (res == null){
+          axios.get(`${this.$domainUrl}/photo/` + i).then(e => {
+            if (e.data.code === 200){
+              let date = JSON.stringify(e.data.data);
+              this.$setValue("photo_" + i,date)
+              this.downloadPhoto(date)
+            }
+          }).catch(error => {
+                console.log("error" + error)
+              }
+          )
+        }else {
+          this.downloadPhoto(res)
+                  }
+      })
+    },
+    downloadPhoto(res){
+      let fileArr = [
+      ]
+      let resf = JSON.parse(res);
+      let parse = JSON.parse(resf.collection);
+      this.items = parse;
+      let count = 0;
+      parse.forEach(item => {
+        if (count % 3 == 0){
+          fileArr.push({
+            fvUrl:"/yao/" + resf.prefix + "/" + resf.suffix + '/' + item,
+            fvName: item
+          })
+        }else if (count %3 == 1){
+          fileArr.push({
+            fvUrl:"/wan/" + resf.prefix + "/" + resf.suffix + '/' + item,
+            fvName: item
+          })
+        }else if (count %3 ==2){
+          fileArr.push({
+            fvUrl:"/hui/" + resf.prefix + "/" + resf.suffix + '/' + item,
+            fvName: item
+          })
+        }
+      count++;
+      })
+      loadZip(fileArr,resf.name);
     },
     //图片加载
     imgListLoad(){

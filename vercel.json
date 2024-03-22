@@ -3,6 +3,18 @@
     {
       "source": "/api/(.*)",
       "destination": "https://frp-fun.top:49728/$1"
+    },
+    {
+      "source": "/yao/(.*)",
+      "destination": "https://yaoyao.dynv6.net/$1"
+    },
+    {
+      "source": "/wan/(.*)",
+      "destination": "https://wanfengbuwan.dynv6.net/$1"
+    },
+    {
+      "source": "/hui/(.*)",
+      "destination": "https://huifaguang.dynv6.net/$1"
     }
   ]
 }
