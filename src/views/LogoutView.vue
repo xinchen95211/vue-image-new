@@ -11,7 +11,7 @@ export default {
     localStorage.removeItem("token")
     ElMessage.success("退出登陆成功")
     setTimeout(() => {
-      location.replace("/#/login");
+      location.replace("/login");
     }, 3000);
 
   },

@@ -141,7 +141,7 @@ export default {
     },
     selectItem(id) {
       // this.$router.push({name:'/videoshow',query: {id:id,poster:}})
-      window.open(`/#/videoshow/${id}`);
+      window.open(`/videoshow/${id}`);
 
     },
     selectStar(i) {
