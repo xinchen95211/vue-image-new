@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter, createWebHashHistory} from 'vue-router'
 
 import PhotoMain from '@/views/PhotoMain.vue'
 import PhotoShow from '@/views/PhotoShow.vue'
@@ -12,7 +12,7 @@ import Manager from "@/views/ManagerView.vue";
 import RandomVideo from "@/views/RandomVideo.vue";
 
 const router = createRouter({
-    history:createWebHistory(),
+    history:createWebHashHistory(),
     routes: [
         {
           path:'/video',
