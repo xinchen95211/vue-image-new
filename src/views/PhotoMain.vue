@@ -168,16 +168,16 @@ export default {
             if (e.data.code === 200){
               let date = JSON.stringify(e.data.data);
               this.$setValue("photo_" + i,date)
-              // this.downloadPhoto(date)
-              this.downle(date);
+              this.downloadPhoto(date)
+              // this.downle(date);
             }
           }).catch(error => {
                 console.log("error" + error)
               }
           )
         }else {
-          // this.downloadPhoto(res)
-          this.downle(res);
+          this.downloadPhoto(res)
+          // this.downle(res);
         }
       })
     },
