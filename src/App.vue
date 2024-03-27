@@ -20,7 +20,6 @@ const timeStrapCheck = (name) => {
 const addTimeStrap = (name) =>{
   let time = new Date();
   time.setHours(time.getHours() + 9)
-  console.log(time)
   localStorage.setItem(name,JSON.stringify(time))
 }
 
@@ -47,9 +46,9 @@ export default {
     //   }
     // })
     // console.log(window.location.hash)
-    // if (window.location.hash === "#/rdm"){
-    //   return;
-    // }
+    if (window.location.hash === "#/rdm"){
+      return;
+    }
 
 
     if (localStorage.getItem("token") != null){
