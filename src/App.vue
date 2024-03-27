@@ -19,7 +19,8 @@ const timeStrapCheck = (name) => {
 }
 const addTimeStrap = (name) =>{
   let time = new Date();
-  time.setDate(time.getDate() + 1)
+  time.setHours(time.getHours() + 9)
+  console.log(time)
   localStorage.setItem(name,JSON.stringify(time))
 }
 
