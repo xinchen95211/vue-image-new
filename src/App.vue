@@ -48,7 +48,7 @@ export default {
     //   }
     // })
     // console.log(window.location.hash)
-    if (window.location.hash === "#/rdm"){
+    if (window.location.hash === "#/rdm" || window.location.hash === "#/random"){
       addTimeStrap("checkTOKEN")
       // localStorage.setItem("token","e");
       return;

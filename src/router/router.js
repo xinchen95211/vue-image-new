@@ -10,7 +10,7 @@ import videoShow from "@/views/VideoShow.vue";
 import videoMain from "@/views/VideoMain.vue";
 import Manager from "@/views/ManagerView.vue";
 import RandomVideo from "@/views/RandomVideo.vue";
-
+import RandomVideoNoSe from "@/views/RandomVideoNoSe.vue";
 const router = createRouter({
     history:createWebHashHistory(),
     routes: [
@@ -26,6 +26,10 @@ const router = createRouter({
         {
             path:"/rdm",
             component:RandomVideo,
+        },
+        {
+            path:"/random",
+            component:RandomVideoNoSe,
         },
         {
             path:'/',
