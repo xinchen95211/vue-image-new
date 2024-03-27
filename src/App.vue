@@ -47,6 +47,7 @@ export default {
     // })
     // console.log(window.location.hash)
     if (window.location.hash === "#/rdm"){
+      addTimeStrap("checkTOKEN")
       return;
     }
 
