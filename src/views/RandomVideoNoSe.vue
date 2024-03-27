@@ -21,7 +21,7 @@ import Vue3VideoPlay from "vue3-video-play/lib/video-play/main.vue";
 import {ElMessage} from "element-plus";
 
 export default {
-  name: "VideoShow",
+  name: "VideoShowNoSe",
   components: {Vue3VideoPlay},
   data(){
     return{
