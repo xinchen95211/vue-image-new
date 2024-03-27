@@ -14,6 +14,8 @@ const timeStrapCheck = (name) => {
   }else {
     let parse = JSON.parse(item);
     let time = new Date().toISOString();
+     console.log(time)
+    console.log(parse < time)
     return parse < time;
   }
 }
@@ -48,7 +50,7 @@ export default {
     // console.log(window.location.hash)
     if (window.location.hash === "#/rdm"){
       addTimeStrap("checkTOKEN")
-      localStorage.setItem("token","e");
+      // localStorage.setItem("token","e");
       return;
     }
 
