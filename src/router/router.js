@@ -28,9 +28,8 @@ const router = createRouter({
             component:RandomVideo,
         },
         {
-            path:"/random/:type",
+            path:"/random",
             component:RandomVideoNoSe,
-            props:true
         },
         {
             path:'/',
@@ -70,7 +69,7 @@ const router = createRouter({
 
  router.beforeEach((to,from,next)=>{
      const token = localStorage.getItem("token");
-     if(to.path === '/login' || to.path === '/register'|| to.path === '/retrievePassword'|| to.path === '/error' || to.path === '/rdm' || to.path === '/random'||to.path === '/random/xgg'){
+     if(to.path === '/login' || to.path === '/register'|| to.path === '/retrievePassword'|| to.path === '/error' || to.path === '/rdm' || to.path === '/random'){
          next();
      }else{
          if(token == null || token === ''){

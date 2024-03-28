@@ -5,13 +5,8 @@
   <div style="margin-top: 10px;">
     <el-button type="primary" @click="mount" style="float:left; margin-left: 40%" >点击换一个</el-button>
   </div>
-
-<!--  <div class="zan">-->
-<!--    <el-icon size="50px" color="skyblue" @click="selectStar(id)">-->
-<!--      <star v-if="star"></star>-->
-<!--      <star-filled v-if="!star"></star-filled>-->
-<!--    </el-icon>-->
-<!--  </div>-->
+<!--  <el-button type="primary" @click="type=false" style="float:left; margin-left: 40%" >看小哥哥</el-button>-->
+<!--  <el-button type="primary" @click="type=true" style="float:left; margin-left: 40%" >看小姐姐</el-button>-->
 </template>
 
 <script>
@@ -25,6 +20,7 @@ export default {
   components: {Vue3VideoPlay},
   data(){
     return{
+      type:true,
       onclicks:false,
       options:{
         width: '800px', //播放器高度
@@ -34,7 +30,7 @@ export default {
         title: '', //视频名称
         pageFullScreen:false,
         fullscreen:true,
-        // src: "https://api.yujn.cn/api/xjj.php?_t=0",
+        src: "https://api.yujn.cn/api/xjj.php?_t=0",
         controlBtns:['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen']
       },
       poster:'',
@@ -62,10 +58,10 @@ export default {
         return;
       }
       this.onclicks = true;
-      if (this.type === "xgg"){
-        this.options.src = "https://api.yujn.cn/api/xgg.php?_t="+Math.random();
-      }else {
+      if (this.type){
         this.options.src = "https://api.yujn.cn/api/xjj.php?_t="+Math.random();
+      }else {
+        this.options.src = "https://api.yujn.cn/api/xgg.php?_t="+Math.random();
       }
       this.onclicks = false
 
@@ -74,9 +70,7 @@ export default {
       this.mount();
     }
     },
-    props:{
-      type:String
-    }
+
 
   }
 </script>
