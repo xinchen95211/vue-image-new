@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative; margin-top: 10px" >
-    <vue3VideoPlay id="vueVideo" v-bind="options" />
+    <vue3VideoPlay id="vueVideo" v-bind="options" @ended="mount"/>
   </div>
   <div style="margin-top: 10px;">
     <el-button type="primary" @click="mount" style="float:left; margin-left: 40%" >点击换一个</el-button>
@@ -52,7 +52,7 @@ export default {
       this.options.height = docHeight * 0.90 + "px";
       // this.tabHeight = docHeight * 0.14 + 'px';
       // this.folderHeight = docHeight * 0.05 + 'px';
-      console.log(this.cardHeight, this.tabHeight, this.folderHeight)
+      // console.log(this.cardHeight, this.tabHeight, this.folderHeight)
     });
   },
   methods:{
