@@ -34,7 +34,7 @@ export default {
         title: '', //视频名称
         pageFullScreen:false,
         fullscreen:true,
-        src: "https://api.yujn.cn/api/xjj.php?_t=0",
+        // src: "https://api.yujn.cn/api/xjj.php?_t=0",
         controlBtns:['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen']
       },
       poster:'',
@@ -54,6 +54,7 @@ export default {
       // this.folderHeight = docHeight * 0.05 + 'px';
       // console.log(this.cardHeight, this.tabHeight, this.folderHeight)
     });
+    this.mount();
   },
   methods:{
     mount() {
@@ -61,14 +62,22 @@ export default {
         return;
       }
       this.onclicks = true;
-      this.options.src = "https://api.yujn.cn/api/xjj.php?_t="+Math.random();
+      if (this.type === "xgg"){
+        this.options.src = "https://api.yujn.cn/api/xgg.php?_t="+Math.random();
+      }else {
+        this.options.src = "https://api.yujn.cn/api/xjj.php?_t="+Math.random();
+      }
       this.onclicks = false
 
-    }
     },
     errorLoad(){
       this.mount();
     }
+    },
+    props:{
+      type:String
+    }
+
   }
 </script>
 
