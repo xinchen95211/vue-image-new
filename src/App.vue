@@ -50,14 +50,10 @@ export default {
 
     let hash = window.location.hash;
     console.log(hash)
-    if(hash === "#/random") {
+    if(hash === "#/random" || hash ==="#/rdm" ) {
       addTimeStrap("checkTOKEN");
       return;
     }
-    // if (hash === "#/rdm" ){
-    //   addTimeStrap("checkTOKEN")
-    //   return;
-    // }
 
 
 
