@@ -47,12 +47,18 @@ export default {
     //     }
     //   }
     // })
-    // console.log(window.location.hash)
-    if (window.location.hash === "#/rdm" || window.location.hash === "#/random"){
-      addTimeStrap("checkTOKEN")
-      // localStorage.setItem("token","e");
+
+    let hash = window.location.hash;
+    console.log(hash)
+    if(hash === "#/random") {
+      addTimeStrap("checkTOKEN");
       return;
     }
+    // if (hash === "#/rdm" ){
+    //   addTimeStrap("checkTOKEN")
+    //   return;
+    // }
+
 
 
     if (localStorage.getItem("token") != null){
