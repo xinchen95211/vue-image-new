@@ -1,9 +1,12 @@
 <template>
-  <div style="position: relative; margin-top: 10px" >
+  <div style="position: relative; margin-top: 10px" :hidden="!hides">
     <vue3VideoPlay id="vueVideo" v-bind="options" :poster="poster" @error="errorLoad" />
   </div>
+  <div style="position: relative; margin-top: 10px"  :hidden="hides">
+    <vue3VideoPlay id="vueVideo2"  v-bind="options2" :poster="poster2" @error="errorLoad" />
+  </div>
   <div style="margin-top: 10px;">
-    <el-button type="primary" @click="mount" style="float:left; margin-left: 40%" >点击换一个</el-button>
+    <el-button type="primary" @click="clickEt" style="float:left; margin-left: 40%" >点击换一个</el-button>
   </div>
 
 <!--  <div class="zan">-->
@@ -23,24 +26,43 @@ import {ElMessage} from "element-plus";
 export default {
   name: "VideoShow",
   components: {Vue3VideoPlay},
-  data(){
-    return{
-      onclicks:false,
-      options:{
+  data() {
+    return {
+      hides: true,
+      onclicks: false,
+      options: {
         width: '800px', //播放器高度
         height: '450px', //播放器高度
         color: "#409eff", //主题色
-        speed:true, //关闭进度条拖动
+        speed: true, //关闭进度条拖动
         title: '', //视频名称
-        pageFullScreen:false,
-        fullscreen:true,
+        pageFullScreen: false,
+        fullscreen: true,
+        loop:true,
         src: "https://api.yujn.cn/api/xjj.php?_t=0",
-        controlBtns:['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen']
+        controlBtns: ['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen'],
+        autoPlay: true,
+        currentTime:0,
       },
-      poster:'',
-      domainList:[],
-      iterateeCount:0,
-      videoURI:'',
+      options2: {
+        width: '800px', //播放器高度
+        height: '450px', //播放器高度
+        color: "#409eff", //主题色
+        speed: true, //关闭进度条拖动
+        title: '', //视频名称
+        pageFullScreen: false,
+        fullscreen: true,
+        loop:true,
+        src: "https://api.yujn.cn/api/xjj.php?_t=0",
+        controlBtns: ['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen'],
+        autoPlay: true,
+        currentTime:0,
+      },
+      poster: '',
+      poster2: '',
+      domainList: [],
+      iterateeCount: 0,
+      videoURI: '',
     }
   },
   created() {
@@ -50,15 +72,18 @@ export default {
       console.log("可视区域高度", docHeight);
       this.options.width = docwidth + "px";
       this.options.height = docHeight * 0.90 + "px";
+      this.options2.width = docwidth + "px";
+      this.options2.height = docHeight * 0.90 + "px";
       // this.tabHeight = docHeight * 0.14 + 'px';
       // this.folderHeight = docHeight * 0.05 + 'px';
       console.log(this.cardHeight, this.tabHeight, this.folderHeight)
     });
     this.mount();
+    this.preLoad();
   },
-  methods:{
+  methods: {
     mount() {
-      if (this.onclicks){
+      if (this.onclicks) {
         return;
       }
       this.onclicks = true;
@@ -68,7 +93,7 @@ export default {
           this.domainList = data.domainList;
           this.videoURI = data.videoUri;
           this.options.src = data.domain + data.videoUri;
-          this.poster = data.domain + '/' + data.prefix + '/' +data.suffix + '/' +data.thumbnail;
+          this.poster = data.domain + '/' + data.prefix + '/' + data.suffix + '/' + data.thumbnail;
         }
         this.onclicks = false
       }).catch(error => {
@@ -76,36 +101,73 @@ export default {
             console.log("error" + error)
           }
       )
-    }
     },
-    loadimg(res){
+    clickEt(){
+     let vueVideo = document.getElementById("vueVideo");
+      let vueVideo2 = document.getElementById("vueVideo2");
+      if (this.onclicks) {
+        return;
+      }
+      this.onclicks = true;
+      this.hides = !this.hides;
+      this.options2.currentTime = 0.567;
+      this.options.currentTime = 0.567;
+      this.preLoad();
+      // vueVideo.pause();
+      vueVideo.currentTime = 0;
+      vueVideo2.currentTime = 0;
+      // vueVideo2.pause();
+      // vueVideo.play();
+      // vueVideo2.play();
+      this.onclicks = false;
+    },
+    preLoad() {
+      axios.get(`${this.$domainUrl}/video/random`).then(e => {
+        if (e.data.code === 200) {
+          let data = e.data.data;
+          this.domainList = data.domainList;
+          this.videoURI = data.videoUri;
+          if (this.hides) {
+            this.options2.src = data.domain + data.videoUri;
+            this.poster2 = data.domain + '/' + data.prefix + '/' + data.suffix + '/' + data.thumbnail;
+          } else {
+            this.options.src = data.domain + data.videoUri;
+            this.poster = data.domain + '/' + data.prefix + '/' + data.suffix + '/' + data.thumbnail;
+          }
+        }
+      }).catch(error => {
+        this.onclicks = false
+        console.log("error" + error)
+      })
+    },
+    loadimg(res) {
       let data = JSON.parse(res);
       this.domainList = data.domainList;
       this.videoURI = data.videoUri;
       this.options.src = data.domain + data.videoUri;
-      this.poster = data.domain + '/' + data.prefix + '/' +data.suffix + '/' +data.thumbnail;
+      this.poster = data.domain + '/' + data.prefix + '/' + data.suffix + '/' + data.thumbnail;
     },
 
-    getVideoUrl(id){
+    getVideoUrl(id) {
       axios.get(`${this.$domainUrl}/video/${id}`).then(e => {
-        if (e.data.code === 200){
-          if (e.data.data == null){
+        if (e.data.code === 200) {
+          if (e.data.data == null) {
             ElMessage.error("这个视频暂时有问题,换一个看看吧")
-          }else{
+          } else {
             let dates = JSON.stringify(e.data.data);
             this.$setValue("video_" + id, dates)
             let data = e.data.data;
             this.domainList = data.domainList;
             this.videoURI = data.videoUri;
             this.options.src = data.domain + data.videoUri;
-            this.poster = data.domain + '/' + data.prefix + '/' +data.suffix + '/' +data.thumbnail;
+            this.poster = data.domain + '/' + data.prefix + '/' + data.suffix + '/' + data.thumbnail;
 
           }
         }
       })
     },
-    errorLoad(){
-      if (this.iterateeCount === this.domainList.length){
+    errorLoad() {
+      if (this.iterateeCount === this.domainList.length) {
         ElMessage.error("这个视频有点问题，换一个看看吧")
         return;
       }
@@ -114,6 +176,7 @@ export default {
       this.iterateeCount++;
     }
   }
+}
 </script>
 
 <style>
