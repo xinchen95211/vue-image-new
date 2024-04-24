@@ -1,140 +1,115 @@
 <script>
-// export default {
-//   name: "ManagerView",
-//   created() {
-//     if (!this.$authorities.includes('ROLE_ADMIN')){
-//       this.$router.push("/")
-//     }
-//   },
-//   methods:{
-//
-//   }
-// }
-import { ref } from 'vue'
-import { Message, Setting } from '@element-plus/icons-vue'
+import axios from "axios";
 
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
+
+export default {
+  name: 'App',
+  data(){
+    return{
+      tableData:[],
+      elMainHeight:0,
+    }
+  },
+  created() {
+    this.$nextTick(() => {
+      let docHeight = document.documentElement.clientHeight;
+      this.elMainHeight = docHeight * 0.85
+    });
+    this.getAllUser(1)
+  },
+  methods:{
+    // 鼠标移动逻辑
+    getAllUser(current){
+      axios.get(`${this.$domainUrl}/manager/allUser`,{
+        params:{
+          "current":current
+        }
+      }).then(e => {
+        if (e.data.code === 200){
+          this.tableData = e.data.data.records
+        }
+      })
+    },
+  }
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
+
+
+
+
+
+
+
+
+
 </script>
 
 <template>
-
-  <el-container class="layout-container-demo" style="height: 500px">
-    <el-aside width="200px">
-      <el-scrollbar>
-        <el-menu :default-openeds="['1', '3']">
+  <el-container>
+    <el-header>
+      用户中心
+    </el-header>
+    <el-container>
+      <el-aside width="50px">
+        <el-menu
+            default-active="2"
+            class="el-menu-vertical-demo"
+            collapse
+        >
           <el-sub-menu index="1">
             <template #title>
-              <el-icon><message /></el-icon>Navigator One
+              <el-icon><location /></el-icon>
+              <span>Navigator One</span>
             </template>
-            <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="1-1">Option 1</el-menu-item>
-              <el-menu-item index="1-2">Option 2</el-menu-item>
+            <el-menu-item-group title="Group One">
+              <el-menu-item index="1-1">item one</el-menu-item>
+              <el-menu-item index="1-2">item two</el-menu-item>
             </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="1-3">Option 3</el-menu-item>
+            <el-menu-item-group title="Group Two">
+              <el-menu-item index="1-3">item three</el-menu-item>
             </el-menu-item-group>
             <el-sub-menu index="1-4">
-              <template #title>Option4</template>
-              <el-menu-item index="1-4-1">Option 4-1</el-menu-item>
+              <template #title>item four</template>
+              <el-menu-item index="1-4-1">item one</el-menu-item>
             </el-sub-menu>
           </el-sub-menu>
-          <el-sub-menu index="2">
-            <template #title>
-              <el-icon><icon-menu /></el-icon>Navigator Two
-            </template>
-            <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="2-1">Option 1</el-menu-item>
-              <el-menu-item index="2-2">Option 2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="2-3">Option 3</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="2-4">
-              <template #title>Option 4</template>
-              <el-menu-item index="2-4-1">Option 4-1</el-menu-item>
-            </el-sub-menu>
-          </el-sub-menu>
-          <el-sub-menu index="3">
-            <template #title>
-              <el-icon><setting /></el-icon>Navigator Three
-            </template>
-            <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="3-1">Option 1</el-menu-item>
-              <el-menu-item index="3-2">Option 2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="3-3">Option 3</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="3-4">
-              <template #title>Option 4</template>
-              <el-menu-item index="3-4-1">Option 4-1</el-menu-item>
-            </el-sub-menu>
-          </el-sub-menu>
+          <el-menu-item index="2">
+            <el-icon><icon-menu /></el-icon>
+            <span>Navigator Two</span>
+          </el-menu-item>
+          <el-menu-item index="3" disabled>
+            <el-icon><document /></el-icon>
+            <span>Navigator Three</span>
+          </el-menu-item>
+          <el-menu-item index="4">
+            <el-icon><setting /></el-icon>
+            <span>Navigator Four</span>
+          </el-menu-item>
         </el-menu>
-      </el-scrollbar>
-    </el-aside>
-
-    <el-container>
-      <el-header style="text-align: right; font-size: 12px">
-        <div class="toolbar">
-          <el-dropdown>
-            <el-icon style="margin-right: 8px; margin-top: 1px"
-            ><setting
-            /></el-icon>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>View</el-dropdown-item>
-                <el-dropdown-item>Add</el-dropdown-item>
-                <el-dropdown-item>Delete</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          <span>Tom</span>
-        </div>
-      </el-header>
-
+      </el-aside>
       <el-main>
-        <el-scrollbar>
-          <el-table :data="tableData">
-            <el-table-column prop="date" label="Date" width="140" />
-            <el-table-column prop="name" label="Name" width="120" />
-            <el-table-column prop="address" label="Address" />
-          </el-table>
-        </el-scrollbar>
+        <el-table :data="tableData" :height="elMainHeight" border style="width: 100%" >
+          <el-table-column type="selection" width="55" />
+        <el-table-column prop="id" label="id" width="180" />
+        <el-table-column prop="nickname" label="昵称" width="180" />
+          <el-table-column prop="roles" label="角色"  />
+        <el-table-column prop="username" label="用户名称" />
+        <el-table-column prop="phone" label="手机号" />
+        <el-table-column prop="email" label="邮箱" />
+        <el-table-column prop="remark" label="备注" />
+        <el-table-column prop="status" label="状态 " />
+        <el-table-column prop="createTime" label="注册时间" />
+        <el-table-column prop="updateTime" label="修改时间" />
+          <el-table-column label="编辑">
+            <template #default="scope">
+            <el-button @click="console.log(scope.row.id)">编辑</el-button>
+            </template>
+          </el-table-column>
+      </el-table>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <style scoped>
-.layout-container-demo .el-header {
-  position: relative;
-  background-color: var(--el-color-primary-light-7);
-  color: var(--el-text-color-primary);
-}
-.layout-container-demo .el-aside {
-  color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-8);
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  right: 20px;
-}
+
 </style>
