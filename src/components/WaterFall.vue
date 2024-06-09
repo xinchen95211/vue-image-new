@@ -42,8 +42,11 @@ export default{
   },
   mounted(){
     this.handleResize()
-    for (let i = 0; i < 3; i++) {
-      this.getPhoto();
+    for (let i = 1; i < 4; i++) {
+      setTimeout(()=>{
+        this.getPhoto();
+      },i*500)
+
     }
 
   },
