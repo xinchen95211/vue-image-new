@@ -5,84 +5,89 @@
 <script>
 
 import axios from "axios";
-import localforage from "localforage";
-import {ElMessage, ElMessageBox} from "element-plus";
-const timeStrapCheck = (name) => {
-  let item = localStorage.getItem(name);
-  if (item == null){
-    return true;
-  }else {
-    let parse = JSON.parse(item);
-    let time = new Date().toISOString();
-     console.log(time)
-    console.log(parse < time)
-    return parse < time;
-  }
-}
-const addTimeStrap = (name) =>{
-  let time = new Date();
-  time.setHours(time.getHours() + 9)
-  localStorage.setItem(name,JSON.stringify(time))
-}
+import {ElLoading, ElMessage} from "element-plus";
 
 
 export default {
   name:'app',
-  created() {
-    let item = localStorage.getItem("Mymessage");
-    if (item == null){
-      ElMessageBox.alert('如遇问题可点击左上角头像框选择清除缓存或反馈信息给开发者', '通知', {
-        confirmButtonText: 'ok',
-        callback: () => {
-          localStorage.setItem("Mymessage",'ok')
-        },
-      })
-    }
-    // this.$getValue('token').then(e => {
-    //   if (e != null){
-    //     if (checkToken(this.$domainUrl)){
-    //       if (window.location.href.includes("login")){
-    //         this.$router.push("/")
-    //       }
-    //     }
-    //   }
-    // })
-
-    let hash = window.location.hash;
-    console.log(hash)
-    if(hash === "#/random" || hash ==="#/rdm" ) {
-      addTimeStrap("checkTOKEN");
-      return;
-    }
-
-
-
-    if (localStorage.getItem("token") != null){
-      if (checkToken(this.$domainUrl)){
-        if (window.location.href.includes("login")){
-          this.$router.push("/")
-        }
-      }
-    }
-
-    let uuid = localStorage.getItem("uuid");
-    if (uuid == null){
-      localStorage.setItem("uuid",this.$uuid.v4())
+  data(){
+    return{
+      domainList:['/yao','/wan','/hui'],
+      domainCount:[0,0]
     }
   },
-}
-const checkToken = async (domain) => {
-  try {
-    if (timeStrapCheck("checkTOKEN")){
-      const response = await axios.get(`${domain}/login/CheckToken`);
-      addTimeStrap("checkTOKEN")
-      return response.data.code === 200 || response.data.code === 6000;
-    }else {
-      return false;
+  created() {
+
+
+    let item1 = localStorage.getItem("superData");
+    if (item1 != null){
+      this.$deleteAll();
+      localStorage.clear();
     }
-  } catch (error) {
-    return false;
-  }
+        let photo = localStorage.getItem("photo");
+        let video = localStorage.getItem("video");
+        if (video == null){
+            this.loadVideo(0)
+        }
+      if (photo == null){
+            this.loadPhoto(0)
+      }
+  },
+  methods:{
+    loadVideo(count){
+      if (count > this.domainCount.length-1){
+        this.count = 0;
+      }
+      const loading = ElLoading.service({
+        lock: true,
+        text: '正在进行第一次视频全数据加载请稍后...',
+        background: 'rgba(0, 0, 0, 0.8)',
+      })
+      let value = 1;
+      let domain = this.domainCount[count];
+      axios.get(`${domain}/Thumbnail/附件/video.json`).then(res => {
+        res.data.forEach(item => {
+          item.forEach(value => {
+            return value;
+          })
+          this.$setValue("video_" + value,item)
+          value++;
+        })
+        ElMessage.success("视频区加载成功")
+        localStorage.setItem("video","123")
+        setTimeout(() => {
+          loading.close();
+        },2000)
+
+      }).catch(() => {
+          this.loadVideo(count+1)
+      })
+    },
+    loadPhoto(count){
+      const loading = ElLoading.service({
+        lock: true,
+        text: '正在进行第一次图片全数据加载请稍后...',
+        background: 'rgba(0, 0, 0, 0.8)',
+      })
+      let value = 1;
+      let domain = this.domainCount[count];
+      axios.get(`${domain}/Thumbnail/附件/photo.json`).then(res => {
+        res.data.forEach(item => {
+          item.forEach(value => {
+            return value;
+          })
+          this.$setValue("photo_" + value,item)
+          value++;
+        })
+        ElMessage.success("图片区数据加载成功")
+        localStorage.setItem("photo","123")
+        setTimeout(() => {
+          loading.close();
+        },2000)
+      }).catch(() => {
+      })
+    }
+    },
 }
 </script>
 

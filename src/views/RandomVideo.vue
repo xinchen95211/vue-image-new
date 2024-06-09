@@ -8,13 +8,6 @@
   <div style="margin-top: 10px;">
     <el-button type="primary" @click="clickEt" style="float:left; margin-left: 40%" >点击换一个</el-button>
   </div>
-
-<!--  <div class="zan">-->
-<!--    <el-icon size="50px" color="skyblue" @click="selectStar(id)">-->
-<!--      <star v-if="star"></star>-->
-<!--      <star-filled v-if="!star"></star-filled>-->
-<!--    </el-icon>-->
-<!--  </div>-->
 </template>
 
 <script>

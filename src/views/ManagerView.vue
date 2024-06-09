@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import {ElMessage} from "element-plus";
 
 
 export default {
@@ -8,16 +9,23 @@ export default {
     return{
       tableData:[],
       elMainHeight:0,
+      pageSize:24,
+      total:100,
+      currentPage:1
+
     }
   },
   created() {
     this.$nextTick(() => {
       let docHeight = document.documentElement.clientHeight;
-      this.elMainHeight = docHeight * 0.85
+      this.elMainHeight = docHeight * 0.8
     });
     this.getAllUser(1)
   },
   methods:{
+    currentChange(e){
+      console.log(e)
+    },
     // 鼠标移动逻辑
     getAllUser(current){
       axios.get(`${this.$domainUrl}/manager/allUser`,{
@@ -27,8 +35,32 @@ export default {
       }).then(e => {
         if (e.data.code === 200){
           this.tableData = e.data.data.records
+          this.total = e.data.data.total
         }
       })
+    },
+    handleCommand(command) {
+      switch (command){
+        case "dark":{this.toggleDark(); break}
+        case "clear":{
+          this.$deleteAll();
+          ElMessage.success('缓存清除成功');
+          let token = localStorage.getItem("token");
+          let authorities = localStorage.getItem("authorities");
+          let isDark = localStorage.getItem("isDark");
+          let username = localStorage.getItem("username");
+          localStorage.clear();
+          localStorage.setItem("token",token);
+          localStorage.setItem("authorities",authorities);
+          localStorage.setItem("isDark",isDark);
+          localStorage.setItem("username",username);
+          break}
+        case "logout":{this.$router.replace("/logout");break}
+        case "retrievePassword":{this.$router.replace("/retrievePassword");break}
+        case "suiji":{this.$router.replace("/rdm");break}
+        case "Feedback":{this.open();break}
+        default : {console.log(command);break}
+      }
     },
   }
 }
@@ -46,7 +78,27 @@ export default {
 <template>
   <el-container>
     <el-header>
-      用户中心
+      <div style="float: right">
+        <el-dropdown trigger="click"  class="navbar-brand" @command="handleCommand">
+    <span>
+      <div>
+          <el-avatar> {{ this.$username }} </el-avatar>
+      </div>
+    </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="dark" v-if="!isDark">深色模式</el-dropdown-item>
+              <el-dropdown-item command="dark" v-if="isDark">浅色模式</el-dropdown-item>
+              <el-dropdown-item command="clear">清除缓存</el-dropdown-item>
+              <el-dropdown-item command="retrievePassword">修改密码</el-dropdown-item>
+              <el-dropdown-item command="Feedback">用户反馈</el-dropdown-item>
+              <el-dropdown-item command="suiji">随机视频</el-dropdown-item>
+              <el-dropdown-item command="logout">退出登陆</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+
     </el-header>
     <el-container>
       <el-aside width="50px">
@@ -105,6 +157,14 @@ export default {
             </template>
           </el-table-column>
       </el-table>
+
+          <el-pagination
+              background layout="prev, pager, next"
+              :page-size="pageSize"
+              @current-change="getAllUser"
+              :total="total" />
+
+
       </el-main>
     </el-container>
   </el-container>
