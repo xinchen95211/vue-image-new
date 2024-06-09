@@ -8,6 +8,10 @@ const openPhoto = () => {
 const openVideo = () => {
   window.open('/#/video')
 }
+const rdmVideo = () => {
+  window.open('/#/rdm')
+}
+
 
 </script>
 
@@ -25,7 +29,7 @@ const openVideo = () => {
         </el-icon>
         <div style="font-size: 20px">视频区</div>
       </el-col>
-      <div style="font-size: 20px">点我随机看片</div>
+      <div style="font-size: 20px" @click="rdmVideo">点我随机看片</div>
     </el-row>
 
 </template>
