@@ -26,10 +26,10 @@ const router = createRouter({
             path:"/rdm",
             component:RandomVideo,
         },
-        {
-            path:"/random",
-            component:RandomVideoNoSe,
-        },
+        // {
+        //     path:"/random",
+        //     component:RandomVideoNoSe,
+        // },
         {
             path:'/',
             component:TabsView,

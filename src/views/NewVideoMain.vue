@@ -34,7 +34,7 @@ export default {
 </script>
 
 <template>
-<water-fall :getValuePrefix="getValuePrefix" :getPhotoValue="getPhotoValue" :selectItem="selectItem" :maxValue="1278"></water-fall>
+<water-fall :getValuePrefix="getValuePrefix" :getPhotoValue="getPhotoValue" :selectItem="selectItem" :maxValue="1276"></water-fall>
 </template>
 
 <style scoped>

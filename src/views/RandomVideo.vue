@@ -21,6 +21,7 @@ export default {
   components: {Vue3VideoPlay},
   data() {
     return {
+      domainList:["https://yaoyao.dynv6.net","https://wanfengbuwan.dynv6.net","https://huifaguang.dynv6.net"],
       hides: true,
       onclicks: false,
       options: {
@@ -53,7 +54,6 @@ export default {
       },
       poster: '',
       poster2: '',
-      domainList: [],
       iterateeCount: 0,
       videoURI: '',
     }
@@ -67,33 +67,30 @@ export default {
       this.options.height = docHeight * 0.90 + "px";
       this.options2.width = docwidth + "px";
       this.options2.height = docHeight * 0.90 + "px";
-      // this.tabHeight = docHeight * 0.14 + 'px';
-      // this.folderHeight = docHeight * 0.05 + 'px';
-      console.log(this.cardHeight, this.tabHeight, this.folderHeight)
     });
-    this.mount();
+    this.mount(this.rdm());
     this.preLoad();
   },
   methods: {
-    mount() {
-      if (this.onclicks) {
-        return;
-      }
-      this.onclicks = true;
-      axios.get(`${this.$domainUrl}/video/random`).then(e => {
-        if (e.data.code === 200) {
-          let data = e.data.data;
-          this.domainList = data.domainList;
-          this.videoURI = data.videoUri;
-          this.options.src = data.domain + data.videoUri;
-          this.poster = data.domain + '/' + data.prefix + '/' + data.suffix + '/' + data.thumbnail;
+    rdm(){
+      return  Math.floor(Math.random() * (1276 - 1 + 1)) + 1
+    },
+    mount(superId) {
+
+      this.$getValue("video_" + superId).then(res => {
+        if (res == null) {
+          ElMessage.error("这个视频暂时有问题,换一个看看吧")
+        } else {
+          let id = Math.floor(Math.random() * (res.length- 1 + 1)) + 1
+          this.loadimg(res[id])
+          console.log(res[id])
         }
-        this.onclicks = false
-      }).catch(error => {
-        this.onclicks = false
-            console.log("error" + error)
-          }
-      )
+      })
+    },
+    loadimg(res){
+      this.videoURI = res.videoUri;
+      this.options.src = this.domainList[0] + res.videoUri;
+      this.poster = this.domainList[0] +  '/Thumbnail/Video_thumbnail/' + res.thumbnail;
     },
     clickEt(){
      let vueVideo = document.getElementById("vueVideo");
@@ -106,57 +103,24 @@ export default {
       this.options2.currentTime = 0.567;
       this.options.currentTime = 0.567;
       this.preLoad();
-      // vueVideo.pause();
       vueVideo.currentTime = 0;
       vueVideo2.currentTime = 0;
-      // vueVideo2.pause();
-      // vueVideo.play();
-      // vueVideo2.play();
       this.onclicks = false;
     },
     preLoad() {
-      axios.get(`${this.$domainUrl}/video/random`).then(e => {
-        if (e.data.code === 200) {
-          let data = e.data.data;
-          this.domainList = data.domainList;
-          this.videoURI = data.videoUri;
+      this.$getValue("video_" + this.rdm()).then(res => {
+        if (res == null) {
+          ElMessage.error("这个视频暂时有问题,换一个看看吧")
+        }
+          let id = Math.floor(Math.random() * (res.length- 1 + 1)) + 1
           if (this.hides) {
-            this.options2.src = data.domain + data.videoUri;
-            this.poster2 = data.domain + '/' + data.prefix + '/' + data.suffix + '/' + data.thumbnail;
+          this.options2.src = this.domainList[0] + res[id].videoUri;
+          this.poster2 = this.domainList[0] +  '/Thumbnail/Video_thumbnail/' + res[id].thumbnail;
           } else {
-            this.options.src = data.domain + data.videoUri;
-            this.poster = data.domain + '/' + data.prefix + '/' + data.suffix + '/' + data.thumbnail;
-          }
+          this.options.src = this.domainList[0] + res[id].videoUri;
+          this.poster = this.domainList[0] +  '/Thumbnail/Video_thumbnail/' + res[id].thumbnail;
         }
-      }).catch(error => {
-        this.onclicks = false
-        console.log("error" + error)
-      })
-    },
-    loadimg(res) {
-      let data = JSON.parse(res);
-      this.domainList = data.domainList;
-      this.videoURI = data.videoUri;
-      this.options.src = data.domain + data.videoUri;
-      this.poster = data.domain + '/' + data.prefix + '/' + data.suffix + '/' + data.thumbnail;
-    },
-
-    getVideoUrl(id) {
-      axios.get(`${this.$domainUrl}/video/${id}`).then(e => {
-        if (e.data.code === 200) {
-          if (e.data.data == null) {
-            ElMessage.error("这个视频暂时有问题,换一个看看吧")
-          } else {
-            let dates = JSON.stringify(e.data.data);
-            this.$setValue("video_" + id, dates)
-            let data = e.data.data;
-            this.domainList = data.domainList;
-            this.videoURI = data.videoUri;
-            this.options.src = data.domain + data.videoUri;
-            this.poster = data.domain + '/' + data.prefix + '/' + data.suffix + '/' + data.thumbnail;
-
-          }
-        }
+        console.log(res[id])
       })
     },
     errorLoad() {
