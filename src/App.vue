@@ -13,11 +13,10 @@ export default {
   data(){
     return{
       domainList:['/yao','/wan','/hui'],
-      domainCount:[0,0]
     }
   },
   created() {
-
+    this.domainList.sort(() => Math.random() - 0.5);
 
     let item1 = localStorage.getItem("superData");
     if (item1 != null){
