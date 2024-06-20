@@ -37,6 +37,7 @@ export default {
         controlBtns: ['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen'],
         autoPlay: true,
         currentTime:0,
+        muted:true,
       },
       options2: {
         width: '800px', //播放器高度
@@ -51,6 +52,7 @@ export default {
         controlBtns: ['audioTrack', 'quality', 'speedRate', 'volume', 'setting', 'pip', 'fullScreen'],
         autoPlay: true,
         currentTime:0,
+        muted:true,
       },
       poster: '',
       poster2: '',
@@ -98,14 +100,16 @@ export default {
       if (this.onclicks) {
         return;
       }
+      console.log(this.options2.muted)
+      console.log(this.options.muted)
       this.onclicks = true;
       this.hides = !this.hides;
       if (this.hides) {
-        this.options2.muted = true;
-        this.options.muted = false;
+        vueVideo2.muted = true;
+        vueVideo.muted = false;
       }else {
-        this.options.muted = true;
-        this.options2.muted = false;
+        vueVideo.muted = true;
+        vueVideo2.muted = false;
       }
       this.options2.currentTime = 0.567;
       this.options.currentTime = 0.567;
