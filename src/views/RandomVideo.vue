@@ -100,6 +100,13 @@ export default {
       }
       this.onclicks = true;
       this.hides = !this.hides;
+      if (this.hides) {
+        this.options2.muted = true;
+        this.options.muted = false;
+      }else {
+        this.options.muted = true;
+        this.options2.muted = false;
+      }
       this.options2.currentTime = 0.567;
       this.options.currentTime = 0.567;
       this.preLoad();
