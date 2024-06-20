@@ -100,16 +100,16 @@ export default {
       if (this.onclicks) {
         return;
       }
-      console.log(this.options2.muted)
-      console.log(this.options.muted)
       this.onclicks = true;
       this.hides = !this.hides;
-      if (this.hides) {
-        vueVideo2.muted = true;
-        vueVideo.muted = false;
-      }else {
-        vueVideo.muted = true;
-        vueVideo2.muted = false;
+      if (vueVideo2.muted || vueVideo.muted){
+        if (this.hides) {
+          vueVideo2.muted = true;
+          vueVideo.muted = false;
+        }else {
+          vueVideo.muted = true;
+          vueVideo2.muted = false;
+        }
       }
       this.options2.currentTime = 0.567;
       this.options.currentTime = 0.567;
